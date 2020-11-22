@@ -6,9 +6,10 @@ output reg [31:0]St_cntr,
 output reg Ld_cntr,
 output reg [1:0]ALUa,
 output reg [2:0]ALUb,
-output reg [1:0]ALU_cntr,
+output reg [3:0]ALU_cntr,
 output reg [31:0]imm,
-output reg Branch_cntr, Jal, Jalr
+output reg [2:0]Branch_cntr,
+output reg Jal, Jalr
 );
 
 wire [2:0]Immc;
@@ -27,7 +28,7 @@ case(instr[6:0])
 
 	7'b0000011:	//-----------load---------------
 			begin	
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10111101000100000000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10111110001000001000;
 			St_cntr <= 32'h00000000;
 			case(instr[14:12])
 				3'b101: Ld_cntr <= 1;
@@ -38,7 +39,7 @@ case(instr[6:0])
 
 	7'b0100011:	//-----------store----------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b01001101010000000000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b01001110100000001000;
 			Ld_cntr <= 1'b0;
 			case(instr[14:12])
 				3'b010: St_cntr <= 32'h11111111;
@@ -50,14 +51,14 @@ case(instr[6:0])
 
 	7'b0110111:	//-----------------lui----------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10000101000000000000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10000110000000001000;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 1'b0; 
 			end
 
 	7'b0010111:	//-----------------auipc------------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10001010100000000000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10001010000000001000;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 1'b0; 
 			end
@@ -69,61 +70,61 @@ case(instr[6:0])
 			case(instr[14:12])
 				3'b111:	//-----------AND	
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011000001;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011001001;
 					Ld_cntr <= 1'b0;
 					end
 				
 				3'b110:	//-----------OR
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011000011;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011001011;
 					Ld_cntr <= 1'b0;
 					end
 
 				3'b100:	//-------------XOR
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011000010;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011001010;
 					Ld_cntr <= 1'b0;
 					end 
 
 				3'b000:	//---------------ADD/SUB
 					begin
-					{Memtoreg,ALUa,ALUb} <= 7'b0011000;
+					{Memtoreg,ALUa,ALUb} <= 6'b001100;
 					Ld_cntr <= 1'b0;
 					case(instr[30])
-						1'b1: ALU_cntr <= 3'b100;
-						default: ALU_cntr <= 3'b000;
+						1'b1: ALU_cntr <= 4'b1100;
+						default: ALU_cntr <= 4'b1000;
 					endcase
 					end
 
 				3'b010:	//---------------SLT
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111000100;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111001100;
 					Ld_cntr <= 1'b1;
 					end
 
 				3'b011:	//----------------SLTU
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0100100100;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111000100;
 					Ld_cntr <= 1'b1;
 					end
 				
 				3'b001:	//--------------------SLL
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011001101;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011011101;
 					Ld_cntr <= 1'b0;
 					end
 
 				3'b101:	//------------------SRL/SRA
 					begin
-					{Memtoreg,ALUa,ALUb} <= 7'b0011001;
+					{Memtoreg,ALUa,ALUb} <= 6'b001101;
 					Ld_cntr <= 1'b0;
 					case(instr[30])
-						1'b0:	ALU_cntr <= 3'b110;
-						default: ALU_cntr <= 3'b111;
+						1'b0:	ALU_cntr <= 4'b1110;
+						default: ALU_cntr <= 4'b1111;
 					endcase
 					end
 				default:begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011000000;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0011001000;
 					Ld_cntr <= 1'b0;
 					end
 			endcase
@@ -136,57 +137,57 @@ case(instr[6:0])
 				case(instr[14:12])
 				3'b111:	//-----------ANDi	
 					begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011010001001;
+					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011100011001;
 					Ld_cntr <= 1'b0;
 					end
 				
 				3'b110:	//-----------ORi
 					begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011010001011;
+					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011100011011;
 					Ld_cntr <= 1'b0;
 					end
 
 				3'b100:	//-------------XORi
 					begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011010001010;
+					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011100011010;
 					Ld_cntr <= 1'b0;
 					end 
 
 				3'b000:	//---------------ADDi
 					begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011010001000;
+					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011100011000;
 					Ld_cntr <= 1'b0;
 					end
 
 				3'b010:	//---------------SLTi
 					begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0111010001100;
+					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0111100011100;
 					Ld_cntr <= 1'b1;
 					end
 
 				3'b011:	//----------------SLTiU
 					begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0100110001100;
+					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0111100010100;
 					Ld_cntr <= 1'b1;
 					end
 				
 				3'b001:	//--------------------SLLi
 					begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011010101101;
+					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011101011101;
 					Ld_cntr <= 1'b0;
 					end
 
 				3'b101:	//------------------SRLi/SRAi
 					begin
-					{Memtoreg,ALUa,ALUb,Immc} <= 10'b0011010101;
+					{Memtoreg,ALUa,ALUb,Immc} <= 9'b001110101;
 					Ld_cntr <= 1'b0;
 					case(instr[30])
-						1'b0:	ALU_cntr <= 3'b110;
-						default: ALU_cntr <= 3'b111;
+						1'b0:	ALU_cntr <= 4'b1110;
+						default: ALU_cntr <= 4'b1111;
 					endcase
 					end
 				default:begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011010001000;
+					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b0011100011000;
 					Ld_cntr <= 1'b0;
 					end
 				endcase
@@ -194,38 +195,38 @@ case(instr[6:0])
 	
 	7'b1100011:	//-------------------branch------------------------
 			begin
-			{RegW,MemW,Memtoreg,Immc,Jal,Jalr,ALU_cntr} <= 12'b000001000100;
+			{RegW,MemW,Memtoreg,Immc,Jal,Jalr,ALUa,ALUb} <= 13'b0000010001100;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 1'b0;
 			case(instr[14:12])
 				3'b000:	//----------------beq
 					begin
-					{ALUa,ALUb} <= 5'b11000;
+					ALU_cntr <= 4'b1100;
 					Branch_cntr <= 3'b001;
 					end
 				3'b001:	//---------------bne
 					begin
-					{ALUa,ALUb} <= 5'b11000;
+					ALU_cntr <= 4'b1100;
 					Branch_cntr <= 3'b010;
 					end
 				3'b100: //--------------------blt
 					begin
-					{ALUa,ALUb} <= 5'b11000;
+					ALU_cntr <= 4'b1100;
 					Branch_cntr <= 3'b011;
 					end
 				3'b101: //-------------------bge
 					begin
-					{ALUa,ALUb} <= 5'b11000;
+					ALU_cntr <= 4'b1100;
 					Branch_cntr <= 3'b100;
 					end
 				3'b110: //--------------------bltu
 					begin
-					{ALUa,ALUb} <= 5'b00011;
+					ALU_cntr <= 4'b0100;
 					Branch_cntr <= 3'011;
 					end
 				3'b111:	//---------------------bgeu
 					begin
-					{ALUa,ALUb} <= 5'b00011;
+					ALU_cntr <= 4'b0100;
 					Branch_cntr <= 3'b100;
 					end
 			endcase
@@ -233,14 +234,14 @@ case(instr[6:0])
 
 	7'b1101111:	//----------------------JAL----------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10001001101100010000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10001011011000101000;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 1'b0; 
 			end
 
 	7'b1100111:	//------------------JALR-----------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10001001100100011000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Immc,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10001011001000111000;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 1'b0; 
 			end

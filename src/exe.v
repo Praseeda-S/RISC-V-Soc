@@ -1,6 +1,6 @@
 module exe #(parameter WIDTH=32)(
 input wire [31:0]imm,
-input wire [2:0]ALUb,
+input wire [1:0]ALUb,
 input wire [1:0]ALUa,
 input wire [2:0]alu_cntr,
 input wire [31:0]Rd1,Rd2,
@@ -18,7 +18,7 @@ reg [31:0]b;
 
 always@(*)
 begin
-case(ALUb[1:0])
+case(ALUb)
 	2'b00: b = Rd2;
 	2'b01: b = Rd2 & 0x0000001F;
 	2'b10: b = imm;
