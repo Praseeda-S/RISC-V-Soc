@@ -2,7 +2,7 @@ module exe #(parameter WIDTH=32)(
 input wire [31:0]imm,
 input wire [1:0]ALUb,
 input wire [1:0]ALUa,
-input wire [2:0]alu_cntr,
+input wire [3:0]alu_cntr,
 input wire [31:0]Rd1,Rd2,
 input wire [31:0]pc,
 input wire [2:0]branch_cntr,
