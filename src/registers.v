@@ -1,4 +1,4 @@
-module Register_Set(
+module registers(
 input         clk,
 input         rstn,
 input         write,

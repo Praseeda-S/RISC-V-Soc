@@ -8,7 +8,7 @@ output [31:0] data_addr,
 output datamem_rd,
 output datamem_wr,
 input [31:0] data_in,
-output [31:0] data_out,
+output [31:0] data_out
 );
 
 // instruction parsing
@@ -37,80 +37,82 @@ wire jalr;
 wire mem_wr;
 wire [1:0] mem_to_reg;
 wire [31:0] St_cntr;
-wire Ld_cntr;
+wire [1:0]Ld_cntr;
 wire [1:0] ALUa;
-wire [2:0] ALUb;
+wire [1:0] ALUb;
 wire [3:0] ALU_cntr;
-wire Branch_cntr;
+wire [2:0] Branch_cntr;
 
-program_counter <= instr_in;
+always@ (posedge clk)  program_counter <= instr_in;
 
 
 registers regset(
 .clk		(clk),
-.rsnt		(rstn)
-.write		(reg_wr)
-.rs1_addr	(reg_addr1)
-.rs2_addr	(reg_addr2)
-.w_addr		(reg_addr3)
-.w_data		(memtoreg_data)
-.rs1_out	(rs1)
+.rstn		(rstn),
+.write		(reg_wr),
+.rs1_addr	(reg_addr1),
+.rs2_addr	(reg_addr2),
+.w_addr		(reg_addr3),
+.w_data		(memtoreg_data),
+.rs1_out	(rs1),
 .rs2_out	(rs2)
 );
 
 ifetch fetchunit(
 .pc		(instr_in),
-.rs1		(rs1)
-.immediate	(imm_data)
-.jal		(jal)
-.jalr		(jalr)
-.pcbranch	(pcbranch)
+.rs1		(rs1),
+.immediate	(imm_data),
+.jal		(jal),
+.jalr		(jalr),
+.pcbranch	(pcbranch),
 .clk		(clk)
 );
 
 idecode decodeunit(
-.instr		(instr_in)
-.RegW		(reg_wr)
-.MemW		(mem_wr)
-.Memtoreg	(mem_to_reg)
-.St_cntr	(St_cntr)
-.Ld_cntr	(Ld_cntr)
-.ALUa		(ALUa)
-.ALUb		(ALUb)
-.ALU_cntr	(ALU_cntr)
-.imm		(imm_data)
-.Branch_cntr	(Branch_cntr)
-.Jal		(jal)
+.clk		(clk),
+.instr		(instr_in),
+.RegW		(reg_wr),
+.MemW		(mem_wr),
+.Memtoreg	(mem_to_reg),
+.St_cntr	(St_cntr),
+.Ld_cntr	(Ld_cntr),
+.ALUa		(ALUa),
+.ALUb		(ALUb),
+.ALU_cntr	(ALU_cntr),
+.imm		(imm_data),
+.Branch_cntr	(Branch_cntr),
+.Jal		(jal),
 .Jalr		(jalr)
 );
 
 exe	exeunit(
-.imm		(imm_data)
-.ALUb		(ALUb)
-.ALUa		(ALUa)
-.alu_cntr	(ALU_cntr)
-.Rd1		(rs1)
-.Rd2		(rs2)
-.pc		(program_counter)
-.branch_cntr	(Branch_cntr)
-.alu_out	(alu_out)
-.ov_flag	(alu_ov_flag)
-.z_flag		(alu_z_flag)
+.clk		(clk),
+.imm		(imm_data),
+.ALUb		(ALUb),
+.ALUa		(ALUa),
+.alu_cntr	(ALU_cntr),
+.Rd1		(rs1),
+.Rd2		(rs2),
+.pc		(program_counter),
+.branch_cntr	(Branch_cntr),
+.alu_out	(alu_out),
+.ov_flag	(alu_ov_flag),
+.z_flag		(alu_z_flag),
 .pcbranch	(pcbranch)
 );
 
 lsu lsuunit(
-.clk		(clk)
-.rstn		(rstn)
-.alu_out	(alu_out)
-.alu_ov_flag	(alu_ov_flag)
-.data_addr	(data_addr)
-.MemtoReg	(mem_to_reg)
-.reg_wrdata	(memtoreg_data)
-.Ld_cntr	(Ld_cntr)
-.St_cntr	(St_cntr)
-.datamem_wr_in	(rs2)
-.datamem_wr_o	(data_out)
+.clk		(clk),
+.rstn		(rstn),
+.alu_out	(alu_out),
+.alu_ov_flag	(alu_ov_flag),
+.data_addr	(data_addr),
+.MemtoReg	(mem_to_reg),
+.reg_wrdata	(memtoreg_data),
+.Ld_cntr	(Ld_cntr),
+.St_cntr	(St_cntr),
+.datamem_wr_in	(rs2),
+.datamem_wr_o	(data_out),
 .datamem_rd_in	(data_in)
 );
 

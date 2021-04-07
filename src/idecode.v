@@ -1,27 +1,28 @@
 module idecode(
+input clk,
 input [31:0]instr,
 output reg RegW, MemW,
 output reg [1:0]Memtoreg,
 output reg [31:0]St_cntr,
 output reg [1:0]Ld_cntr,
 output reg [1:0]ALUa,
-output reg [2:0]ALUb,
+output reg [1:0]ALUb,
 output reg [3:0]ALU_cntr,
 output reg [31:0]imm,
 output reg [2:0]Branch_cntr,
 output reg Jal, Jalr
 );
 
-wire [2:0]Immc;
-wire [31:0]Uimm = {[31:12]instr,12{1'b0}};
-wire [31:0]Iimm = {20{instr[31]},[31:20]instr};
-wire [31:0]SBimm = {20{instr[31]},instr[7],instr[30:25],instr[11:8],1'b0};
-wire [31:0]UJimm = {12{instr[31]},instr[19:12],instr[20],instr[30:25],instr[24:21],1'b0};
-wire [31:0]Simm = {20{instr[31]}, instr[30:25],instr[11:8],instr[7]};
-wire [31:0]Shiftimm = {27{1'b0},Imm[4:0]};
+reg [2:0]Immc;
+wire [31:0]Uimm = {instr[31:12],{12{1'b0}}};
+wire [31:0]Iimm = {{20{instr[31]}},instr[31:20]};
+wire [31:0]SBimm = {{20{instr[31]}},instr[7],instr[30:25],instr[11:8],1'b0};
+wire [31:0]UJimm = {{12{instr[31]}},instr[19:12],instr[20],instr[30:25],instr[24:21],1'b0};
+wire [31:0]Simm = {{20{instr[31]}}, instr[30:25],instr[11:8],instr[7]};
+wire [31:0]Shiftimm = {{27{1'b0}},Imm[4:0]};
 
 
-always@(*)
+always@(posedge clk)
 begin
 
 case(instr[6:0])
@@ -222,7 +223,7 @@ case(instr[6:0])
 				3'b110: //--------------------bltu
 					begin
 					ALU_cntr <= 4'b0100;
-					Branch_cntr <= 3'011;
+					Branch_cntr <= 3'b011;
 					end
 				3'b111:	//---------------------bgeu
 					begin
