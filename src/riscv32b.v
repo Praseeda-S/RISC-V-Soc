@@ -43,6 +43,8 @@ wire [1:0] ALUb;
 wire [3:0] ALU_cntr;
 wire [2:0] Branch_cntr;
 
+assign datamem_wr = mem_wr;
+
 always@ (posedge clk)  program_counter <= instr_in;
 
 
@@ -103,7 +105,6 @@ exe	exeunit(
 
 lsu lsuunit(
 .clk		(clk),
-.rstn		(rstn),
 .alu_out	(alu_out),
 .alu_ov_flag	(alu_ov_flag),
 .data_addr	(data_addr),

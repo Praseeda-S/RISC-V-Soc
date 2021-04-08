@@ -1,6 +1,5 @@
 module lsu(
 input clk,
-input rstn,
 input [31:0] alu_out,
 input alu_ov_flag,
 output [31:0] data_addr,
@@ -15,7 +14,7 @@ input [31:0] datamem_rd_in
 
 assign data_addr = alu_out;
 
-always@(*)
+always@(posedge clk)
 begin
 
 case (MemtoReg)

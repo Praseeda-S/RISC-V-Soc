@@ -24,6 +24,7 @@ integer i;
 
 always @(posedge clk or negedge rstn)
 begin
+
  if(~rstn)
    begin
      for(i = 0;i<32;i = i+1)

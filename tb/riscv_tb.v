@@ -5,8 +5,8 @@ reg rstn;
 wire [7:0] gpio;
 
 riscv32b_fpga fpga0(
-.clk	(clk)
-.rstn	(rstn)
+.clk	(clk),
+.rstn	(rstn),
 .gpio_o	(gpio)
 );
 

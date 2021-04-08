@@ -20,6 +20,13 @@ case(pcbranch)
 	1'b0: pc <= t3;
 	1'b1: pc <= pc + immediate;
 	default: pc <= 32'h00000000;
-endcase				
+endcase			
 end
+
+initial
+begin
+ if (pc == 32'bxxxxxxxx)
+   pc <= 32'b00000000;
+end
+
 endmodule
