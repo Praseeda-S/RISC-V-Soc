@@ -17,7 +17,7 @@ begin
  $dumpfile("riscv.vcd");
  $dumpvars(0, riscv_tb);
  rstn = 1'b0;
- repeat(10) @(posedge clk)
+ repeat(10) @(posedge clk);
  #1;
  rstn = 1'b1;
  repeat(1000) @(posedge clk);

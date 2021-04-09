@@ -1,15 +1,15 @@
 module lsu(
-input clk,
-input [31:0] alu_out,
-input alu_ov_flag,
-output [31:0] data_addr,
-input [1:0] MemtoReg,
+input		clk,
+input	[31:0] 	alu_out,
+input 		alu_ov_flag,
+output	[31:0]	data_addr,
+input 	[1:0] 	MemtoReg,
 output reg [31:0] reg_wrdata,
-input [1:0] Ld_cntr,
-input [31:0] St_cntr,
-input [31:0]datamem_wr_in,
+input 	[1:0] 	Ld_cntr,
+input 	[31:0] 	St_cntr,
+input 	[31:0]	datamem_wr_in,
 output reg [31:0]datamem_wr_o,
-input [31:0] datamem_rd_in
+input 	[31:0] 	datamem_rd_in
 );
 
 assign data_addr = alu_out;
