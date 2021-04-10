@@ -1,14 +1,14 @@
 module exe #(parameter WIDTH=32)(
 input wire clk,
 input wire [31:0]imm,
-input wire [1:0]ALUb,
-input wire [1:0]ALUa,
-input wire [3:0]alu_cntr,
+input wire [1:0] ALUb,
+input wire [1:0] ALUa,
+input wire [3:0] alu_cntr,
 input wire [31:0]Rd1,Rd2,
 input wire [31:0]pc,
-input wire [2:0]branch_cntr,
-output reg [31:0]alu_out,
-output reg ov_flag, z_flag,
+input wire [2:0] branch_cntr,
+output     [31:0]alu_result,
+output 		 ov_flag, z_flag,
 output reg pcbranch
 );
 //-------------------------------------------------------------------
@@ -17,7 +17,7 @@ output reg pcbranch
 
 reg [31:0]b;
 
-always@(posedge clk)
+always@(*)
 begin
 case(ALUb)
 	2'b00: b <= Rd2;
@@ -33,7 +33,7 @@ end
 
 reg [31:0]a;
  
-always@(posedge clk)
+always@(*)
 begin
 case(ALUa)
 	2'b01: a <= 32'h00000000;
@@ -46,7 +46,7 @@ end
 
 
 wire [1:0] flags;
-wire [31:0]alu_result;
+
 //ALU
 
 alu #(	.WIDTH(WIDTH)
@@ -55,21 +55,19 @@ alu_inst(	.alu_cntr(alu_cntr),
 		.a(a),
 		.b(b),
 		.status(flags),
-		.alu_out(alu_result)
+		.alu_result(alu_result)
 );
 
-always@(posedge clk)
-begin
-	alu_out <= alu_result;
-	ov_flag <= flags[1];
-	z_flag <= flags[0];
-end
+
+assign ov_flag = flags[1];
+assign z_flag = flags[0];
+
 
 //--------------------------------------------------------------------------------
 
 // BRANCH CONTROL
 
-always@(posedge clk)
+always@(*)
 begin
 	case(branch_cntr)
 	3'b001:		pcbranch <= ({ov_flag,z_flag}==2'b01)? 1'b1:1'b0;	//---------beq	

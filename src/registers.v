@@ -32,7 +32,7 @@ begin
    end
  else if(write)
 	 begin
-           reg_arr[w_addr] = w_data;
+           reg_arr[w_addr] <= w_data;
          end
 end
 

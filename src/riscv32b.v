@@ -29,8 +29,6 @@ wire alu_z_flag;
 wire [31:0] imm_data;
 wire pcbranch;
 
-reg [31:0]program_counter;
-
 // control signals
 wire jal;
 wire jalr;
@@ -44,8 +42,6 @@ wire [3:0] ALU_cntr;
 wire [2:0] Branch_cntr;
 
 assign datamem_wr = mem_wr;
-
-always@ (posedge clk)  program_counter <= instr_in;
 
 
 registers regset(
@@ -61,13 +57,14 @@ registers regset(
 );
 
 ifetch fetchunit(
-.pc		(instr_in),
+.clk		(clk),
+.rstn		(rstn),
+.instr_addr_o	(instr_addr),
 .rs1		(rs1),
 .immediate	(imm_data),
 .jal		(jal),
 .jalr		(jalr),
-.pcbranch	(pcbranch),
-.clk		(clk)
+.pcbranch	(pcbranch)
 );
 
 idecode decodeunit(
@@ -95,9 +92,9 @@ exe	exeunit(
 .alu_cntr	(ALU_cntr),
 .Rd1		(rs1),
 .Rd2		(rs2),
-.pc		(program_counter),
+.pc		(instr_addr),
 .branch_cntr	(Branch_cntr),
-.alu_out	(alu_out),
+.alu_result	(alu_out),
 .ov_flag	(alu_ov_flag),
 .z_flag		(alu_z_flag),
 .pcbranch	(pcbranch)

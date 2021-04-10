@@ -8,13 +8,16 @@ output reg [31:0] reg_wrdata,
 input 	[1:0] 	Ld_cntr,
 input 	[31:0] 	St_cntr,
 input 	[31:0]	datamem_wr_in,
-output reg [31:0]datamem_wr_o,
+output  [31:0]datamem_wr_o,
 input 	[31:0] 	datamem_rd_in
 );
 
 assign data_addr = alu_out;
 
-always@(posedge clk)
+assign datamem_wr_o = datamem_wr_in & St_cntr;
+
+
+always@(*)
 begin
 
 case (MemtoReg)
@@ -28,12 +31,5 @@ case (MemtoReg)
 
 endcase
 end
-
-
-always@(posedge clk)
-begin
-	datamem_wr_o = datamem_wr_in & St_cntr;
-end
-
 		 
 endmodule
