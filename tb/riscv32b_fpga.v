@@ -1,7 +1,7 @@
 module riscv32b_fpga(
 input clk,
 input rstn,
-output gpio_o
+output [7:0] gpio_o
 );
 
 wire [31:0] instr_addr;
@@ -12,8 +12,8 @@ wire datamem_rd;
 wire datamem_wr;
 wire [31:0] data_rd;
 wire [31:0] data_wr;
-wire mem_en = ((datamem_wr | datamem_rd) && data_addr[31:10] == 0)? 1'b1:1'b0;
-wire gpio_en = ((datamem_wr | datamem_rd) && data_addr[31:10] == 1)? 1'b1:1'b0;
+wire mem_en = ((datamem_wr) && data_addr[31:10] == 0)? 1'b1:1'b0;
+wire gpio_en = ((datamem_wr) && data_addr[31:10] == 1)? 1'b1:1'b0;
 
 
 
@@ -49,11 +49,14 @@ ram  rm0(
 reg [7:0] gpio_reg;
 
 always@(posedge clk or negedge rstn)
+begin
  if (~rstn)
    gpio_reg <= 0;
  else if(datamem_wr & gpio_en)
    gpio_reg <= data_wr[7:0];
-assign gpio = gpio_reg;
+end
+
+assign gpio_o = gpio_reg;
 
 
 endmodule

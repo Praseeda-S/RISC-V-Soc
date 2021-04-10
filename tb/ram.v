@@ -1,4 +1,4 @@
-module ram #(parameter AWIDTH=8, DWIDTH = 32)(
+module ram #(parameter AWIDTH=10, DWIDTH = 32)(
 input clk,
 input rstn,
 input mem_wr,
@@ -18,14 +18,14 @@ assign data_rd =(mem_en)? ram_reg[addrs] : 0;
 
 integer i = 0;
 
-always@(posedge clk)
+always@(posedge clk or negedge rstn)
 begin
 if (~rstn)
 	begin
 	for (i = 0; i<ram_size; i = i+1)
 	 ram_reg[i] <= 0;
 	end
-else if (mem_en)
+else if (mem_en && mem_wr)
 	ram_reg[addrs] <= data_wr;
 end
 
