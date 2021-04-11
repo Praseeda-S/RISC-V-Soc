@@ -1,4 +1,4 @@
-module ram #(parameter AWIDTH=10, DWIDTH = 32)(
+module ram #(parameter AWIDTH=8, DWIDTH = 32)(
 input clk,
 input rstn,
 input mem_wr,
@@ -9,7 +9,7 @@ input [DWIDTH-1:0]data_wr
 );
 
 integer ram_size = 2**AWIDTH;
-reg [31:0] ram_reg [0:2**AWIDTH-1];
+reg [DWIDTH-1:0] ram_reg [0:2**AWIDTH-1];
 
 wire [AWIDTH-1:0] addrs;
 assign addrs = addr[AWIDTH-1:0]; 

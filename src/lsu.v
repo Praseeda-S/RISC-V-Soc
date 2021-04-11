@@ -8,7 +8,7 @@ output reg [31:0] reg_wrdata,
 input 	[1:0] 	Ld_cntr,
 input 	[31:0] 	St_cntr,
 input 	[31:0]	datamem_wr_in,
-output  [31:0]datamem_wr_o,
+output  [31:0]  datamem_wr_o,
 input 	[31:0] 	datamem_rd_in
 );
 

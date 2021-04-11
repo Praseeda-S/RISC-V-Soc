@@ -12,8 +12,10 @@ wire datamem_rd;
 wire datamem_wr;
 wire [31:0] data_rd;
 wire [31:0] data_wr;
-wire mem_en = ((datamem_wr) && data_addr[31:10] == 0)? 1'b1:1'b0;
-wire gpio_en = ((datamem_wr) && data_addr[31:10] == 1)? 1'b1:1'b0;
+//wire mem_en = ((datamem_wr) && data_addr[31:10] == 0)? 1'b1:1'b0;
+wire mem_en = datamem_wr;
+//wire gpio_en = ((datamem_wr) && data_addr[31:10] == 1)? 1'b1:1'b0;
+wire gpio_en = datamem_wr;
 
 
 
@@ -52,7 +54,7 @@ always@(posedge clk or negedge rstn)
 begin
  if (~rstn)
    gpio_reg <= 0;
- else if(datamem_wr & gpio_en)
+ else if(gpio_en)
    gpio_reg <= data_wr[7:0];
 end
 

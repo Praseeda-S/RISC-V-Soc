@@ -46,9 +46,9 @@ case(instr[6:0])
 			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b01001110000001000;
 			Ld_cntr <= 2'b00;
 			case(instr[14:12])
-				3'b010: St_cntr <= 32'h11111111;
-				3'b001: St_cntr <= 32'h00001111;
-				3'b000: St_cntr <= 32'h00000011;
+				3'b010: St_cntr <= 32'hFFFFFFFF;
+				3'b001: St_cntr <= 32'h0000FFFF;
+				3'b000: St_cntr <= 32'h000000FF;
 				default: St_cntr <= 32'h00000000; 
 			endcase
 			imm <= Simm;	
