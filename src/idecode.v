@@ -21,7 +21,7 @@ wire [31:0]Iimm = {{20{instr[31]}},instr[31:20]};
 wire [31:0]SBimm = {{20{instr[31]}},instr[7],instr[30:25],instr[11:8],1'b0};
 wire [31:0]UJimm = {{12{instr[31]}},instr[19:12],instr[20],instr[30:25],instr[24:21],1'b0};
 wire [31:0]Simm = {{20{instr[31]}}, instr[30:25],instr[11:8],instr[7]};
-wire [31:0]Shiftimm = {{27{1'b0}},Imm[4:0]};
+wire [31:0]Shiftimm = {{27{1'b0}},Iimm[4:0]};
 
 
 always@(*)
@@ -31,7 +31,7 @@ case(instr[6:0])
 
 	7'b0000011:	//-----------load---------------
 			begin	
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10111110000001000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 17'b10111110000001000;
 			St_cntr <= 32'h00000000;
 			case(instr[14:12])
 				3'b001: Ld_cntr <= 01;
@@ -43,7 +43,7 @@ case(instr[6:0])
 
 	7'b0100011:	//-----------store----------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b01001110000001000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 17'b01001110000001000;
 			Ld_cntr <= 2'b00;
 			case(instr[14:12])
 				3'b010: St_cntr <= 32'hFFFFFFFF;
@@ -56,7 +56,7 @@ case(instr[6:0])
 
 	7'b0110111:	//-----------------lui----------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10010110000001000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 17'b10010110000001000;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 2'b00;
 			imm <= Uimm; 
@@ -64,7 +64,7 @@ case(instr[6:0])
 
 	7'b0010111:	//-----------------auipc------------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10011010000001000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 17'b10011010000001000;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 2'b00; 
 			imm <= Uimm;
@@ -72,7 +72,7 @@ case(instr[6:0])
 	
 	7'b0110011:	//------------------R Type--------------------
 			begin
-			{RegW,MemW,Branch_cntr,Jal,Jalr} <= 10'b1000000;
+			{RegW,MemW,Branch_cntr,Jal,Jalr} <= 7'b1000000;
 			St_cntr <= 32'h00000000;
 			case(instr[14:12])
 				3'b111:	//-----------AND	
@@ -144,56 +144,56 @@ case(instr[6:0])
 				case(instr[14:12])
 				3'b111:	//-----------ANDi	
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 13'b0111101001;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111101001;
 					Ld_cntr <= 2'b00;
 					imm <= Iimm;
 					end
 				
 				3'b110:	//-----------ORi
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 13'b0111101011;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111101011;
 					Ld_cntr <= 2'b00;
 					imm <= Iimm;
 					end
 
 				3'b100:	//-------------XORi
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 13'b0111101010;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111101010;
 					Ld_cntr <= 2'b00;
 					imm <= Iimm;
 					end 
 
 				3'b000:	//---------------ADDi
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 13'b0111101000;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111101000;
 					Ld_cntr <= 2'b00;
 					imm <= Iimm;
 					end
 
 				3'b010:	//---------------SLTi
 					begin
-					{Memtoreg,ALUa,ALUb,Immc,ALU_cntr} <= 13'b1011101100;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b1011101100;
 					Ld_cntr <= 2'b00;
 					imm <= Iimm;
 					end
 
 				3'b011:	//----------------SLTiU
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 13'b1011100100;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b1011100100;
 					Ld_cntr <= 2'b00;
 					imm <= Iimm;
 					end
 				
 				3'b001:	//--------------------SLLi
 					begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 13'b0111101101;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111101101;
 					Ld_cntr <= 2'b00;
 					imm <= Shiftimm;
 					end
 
 				3'b101:	//------------------SRLi/SRAi
 					begin
-					{Memtoreg,ALUa,ALUb} <= 9'b011110;
+					{Memtoreg,ALUa,ALUb} <= 6'b011110;
 					Ld_cntr <= 2'b00;
 					case(instr[30])
 						1'b0:	ALU_cntr <= 4'b1110;
@@ -202,7 +202,7 @@ case(instr[6:0])
 					imm <= Shiftimm;
 					end
 				default:begin
-					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 13'b0111101000;
+					{Memtoreg,ALUa,ALUb,ALU_cntr} <= 10'b0111101000;
 					Ld_cntr <= 2'b00;
 					imm <= Iimm;
 					end
@@ -211,7 +211,7 @@ case(instr[6:0])
 	
 	7'b1100011:	//-------------------branch------------------------
 			begin
-			{RegW,MemW,Memtoreg,Jal,Jalr,ALUa,ALUb} <= 13'b0001001100;
+			{RegW,MemW,Memtoreg,Jal,Jalr,ALUa,ALUb} <= 10'b0001001100;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 2'b00;
 			imm <= SBimm;
@@ -251,7 +251,7 @@ case(instr[6:0])
 
 	7'b1101111:	//----------------------JAL----------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10011011000101000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 17'b10011011000101000;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 2'b00; 
 			imm <= UJimm;
@@ -259,7 +259,7 @@ case(instr[6:0])
 
 	7'b1100111:	//------------------JALR-----------------
 			begin
-			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 20'b10011011000111000;
+			{RegW,MemW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr} <= 17'b10011011000111000;
 			St_cntr <= 32'h00000000;
 			Ld_cntr <= 2'b00; 
 			imm <= Iimm;

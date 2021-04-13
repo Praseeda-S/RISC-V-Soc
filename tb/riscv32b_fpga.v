@@ -13,7 +13,7 @@ wire datamem_wr;
 wire [31:0] data_rd;
 wire [31:0] data_wr;
 //wire mem_en = ((datamem_wr) && data_addr[31:10] == 0)? 1'b1:1'b0;
-wire mem_en = datamem_wr;
+wire mem_en = 1;
 //wire gpio_en = ((datamem_wr) && data_addr[31:10] == 1)? 1'b1:1'b0;
 wire gpio_en = datamem_wr;
 
