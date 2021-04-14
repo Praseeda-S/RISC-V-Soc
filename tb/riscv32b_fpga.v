@@ -4,18 +4,21 @@ input rstn,
 output [7:0] gpio_o
 );
 
-wire [31:0] instr_addr;
-wire instr_rd;
-wire [31:0] instr;
-wire [31:0] data_addr;
-wire datamem_rd;
-wire datamem_wr;
-wire [31:0] data_rd;
-wire [31:0] data_wr;
+wire	[31:0]	instr_addr;
+wire 		instr_rd;
+wire 	[31:0] 	instr;
+wire 	[31:0] 	data_addr;
+wire 		datamem_rd;
+wire 	[3:0] 	datamem_wr;
+wire 	[31:0] 	data_rd;
+wire 	[7:0] 	data_wr0;
+wire 	[7:0] 	data_wr1;
+wire 	[7:0] 	data_wr2;
+wire 	[7:0] 	data_wr3;
 //wire mem_en = ((datamem_wr) && data_addr[31:10] == 0)? 1'b1:1'b0;
 wire mem_en = 1;
 //wire gpio_en = ((datamem_wr) && data_addr[31:10] == 1)? 1'b1:1'b0;
-wire gpio_en = datamem_wr;
+//wire gpio_en = datamem_wr;
 
 
 
@@ -30,7 +33,10 @@ riscv32b cpu0(
 .datamem_rd	(datamem_rd),
 .datamem_wr	(datamem_wr),
 .data_in	(data_rd),
-.data_out	(data_wr)
+.data_out0	(data_wr0),
+.data_out1	(data_wr1),
+.data_out2	(data_wr2),
+.data_out3	(data_wr3)
 );
 
 rom  r0(
@@ -41,14 +47,18 @@ rom  r0(
 
 ram  rm0(
 .clk		(clk),
+.rstn		(rstn),
 .mem_wr		(datamem_wr),
 .mem_en		(mem_en),
 .addr		(data_addr),
 .data_rd	(data_rd),
-.data_wr 	(data_wr)
+.data_wr0 	(data_wr0),
+.data_wr1	(data_wr1),
+.data_wr2	(data_wr2),
+.data_wr3	(data_wr3)
 );
 
-reg [7:0] gpio_reg;
+/*reg [7:0] gpio_reg;
 
 always@(posedge clk or negedge rstn)
 begin
@@ -58,7 +68,7 @@ begin
    gpio_reg <= data_wr[7:0];
 end
 
-assign gpio_o = gpio_reg;
+assign gpio_o = gpio_reg;*/
 
 
 endmodule
