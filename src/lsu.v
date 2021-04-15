@@ -77,9 +77,9 @@ begin
 
 case (b_pos)
 	2'b00:	datamem_wr_o <= {d3,d2,d1,d0};
-	2'b01:	datamem_wr_o <= {d0,d3,d2,d1};
+	2'b01:	datamem_wr_o <= {d2,d1,d0,d3};
 	2'b10:	datamem_wr_o <= {d1,d0,d3,d2};
-	2'b11:	datamem_wr_o <= {d2,d1,d0,d3};
+	2'b11:	datamem_wr_o <= {d0,d3,d2,d1};
 endcase
 end
 		 

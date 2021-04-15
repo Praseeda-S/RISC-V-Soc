@@ -1,20 +1,29 @@
 module riscv32b(
 input clk,
 input rstn,
-output [31:0]instr_addr,
-output instr_rd,
-input [31:0] instr_in,
-output [31:0] data_addr,
-output datamem_rd,
-output datamem_wr,
-input [31:0] data_in,
-output [31:0] data_out
+output	[31:0]	instr_addr,
+output 		instr_rd,
+input 	[31:0]	instr_in,
+output 	[31:0] 	data_addr,
+output 		datamem_rd,
+output 	[3:0] 	datamem_wr,
+input 	[31:0] 	data_in,
+output 	[7:0] 	data_out0,
+output 	[7:0] 	data_out1,
+output 	[7:0] 	data_out2,
+output 	[7:0] 	data_out3
 );
 
 // instruction parsing
 wire [4:0] reg_addr1 = instr_in[19:15];
 wire [4:0] reg_addr2 = instr_in[24:20];
 wire [4:0] reg_addr3 = instr_in[11:7];
+
+// data parsing
+assign data_out0 = data_out[7:0];
+assign data_out1 = data_out[15:8];
+assign data_out2 = data_out[23:16];
+assign data_out3 = data_out[31:24];
 
 
 wire reg_wr;
@@ -32,16 +41,15 @@ wire pcbranch;
 // control signals
 wire jal;
 wire jalr;
-wire mem_wr;
 wire [1:0] mem_to_reg;
-wire [31:0] St_cntr;
-wire [1:0]Ld_cntr;
+wire [1:0] St_cntr;
+wire [2:0] Ld_cntr;
 wire [1:0] ALUa;
 wire [1:0] ALUb;
 wire [3:0] ALU_cntr;
 wire [2:0] Branch_cntr;
 
-assign datamem_wr = mem_wr;
+wire [31:0]data_out;
 
 
 registers regset(
@@ -71,7 +79,6 @@ idecode decodeunit(
 .clk		(clk),
 .instr		(instr_in),
 .RegW		(reg_wr),
-.MemW		(mem_wr),
 .Memtoreg	(mem_to_reg),
 .St_cntr	(St_cntr),
 .Ld_cntr	(Ld_cntr),
@@ -106,6 +113,7 @@ lsu lsuunit(
 .alu_ov_flag	(alu_ov_flag),
 .data_addr	(data_addr),
 .MemtoReg	(mem_to_reg),
+.dmem_wr	(datamem_wr),
 .reg_wrdata	(memtoreg_data),
 .Ld_cntr	(Ld_cntr),
 .St_cntr	(St_cntr),
