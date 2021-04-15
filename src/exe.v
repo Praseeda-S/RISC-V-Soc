@@ -45,7 +45,8 @@ end
 //-----------------------------------------------------------------------
 
 
-wire [1:0] flags;
+wire ov_flag;
+wire z_flag;
 
 //ALU
 
@@ -54,13 +55,10 @@ alu #(	.WIDTH(WIDTH)
 alu_inst(	.alu_cntr(alu_cntr),
 		.a(a),
 		.b(b),
-		.status(flags),
+		.o_flag(ov_flag),
+		.z_flag(z_flag),
 		.alu_result(alu_result)
 );
-
-
-assign ov_flag = flags[1];
-assign z_flag = flags[0];
 
 
 //--------------------------------------------------------------------------------
