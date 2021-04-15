@@ -1,5 +1,5 @@
-Interface
-Write Interface
+\\Interface
+\\Write Interface
 
 interface write_control_intf(input logic clk_write_logic, input logic reset);
 bit [`ADDR_WIDTH:0] read_pointer;
@@ -26,7 +26,7 @@ endclocking:cb
 modport WC(clocking cb, input clk_write_logic);
 endinterface:write_control_intf
 
-Read control interface
+\\Read control interface
 
 interface read_control_intf(input logic clk_read_logic, input logic reset);
 logic reset;
@@ -53,7 +53,7 @@ endclocking:cb
 modport RC(clocking cb, input clk_read_logic);
 endinterface:read_control_intf
 
-Memory array interface
+\\Memory array interface
 
 interface mem_array_intf(input logic clk_write_logic);
 logic clk_read_logic;
