@@ -16,7 +16,7 @@ wire 	[7:0] 	data_wr1;
 wire 	[7:0] 	data_wr2;
 wire 	[7:0] 	data_wr3;
 
-wire mem_en = ((|datamem_wr) | datamem_rd);// && data_addr[31:10] == 0)? 1'b1:1'b0;
+wire mem_en = 1;//((|datamem_wr) | datamem_rd);// && data_addr[31:10] == 0)? 1'b1:1'b0;
 wire gpio_en = (((|datamem_wr) | datamem_rd) && data_addr[31:10] == 1)? 1'b1:1'b0;
 //wire gpio_en = datamem_wr;
 
