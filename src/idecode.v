@@ -20,7 +20,7 @@ wire [31:0]Uimm = {instr[31:12],{12{1'b0}}};
 wire [31:0]Iimm = {{20{instr[31]}},instr[31:20]};
 wire [31:0]SBimm = {{20{instr[31]}},instr[7],instr[30:25],instr[11:8],1'b0};
 wire [31:0]UJimm = {{12{instr[31]}},instr[19:12],instr[20],instr[30:25],instr[24:21],1'b0};
-wire [31:0]Simm = {{20{instr[31]}}, instr[30:25],instr[11:8],instr[7]};
+wire [31:0]Simm = {{20{instr[31]}}, instr[31:25],instr[11:7]};
 wire [31:0]Shiftimm = {{27{1'b0}},Iimm[4:0]};
 
 
