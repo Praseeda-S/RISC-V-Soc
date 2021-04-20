@@ -38,6 +38,7 @@ wire [31:0] imm_data;
 wire pcbranch;
 
 // control signals
+wire cpu_wait;
 wire jal;
 wire jalr;
 wire [1:0] mem_to_reg;
@@ -73,11 +74,13 @@ ifetch fetchunit(
 .jalr		(jalr),
 .pcbranch	(pcbranch),
 .instr_in	(instr_in),
-.instr_reg	(instr)
+.instr_reg	(instr),
+.cpu_wait	(cpu_wait)
 );
 
 idecode decodeunit(
 .clk		(clk),
+.hold		(cpu_wait),
 .instr		(instr),
 .RegW		(reg_wr),
 .Memtoreg	(mem_to_reg),

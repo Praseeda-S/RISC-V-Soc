@@ -1,5 +1,6 @@
 module idecode(
 input clk,
+input hold,
 input [31:0]instr,
 output reg RegW,
 output reg [1:0]Memtoreg,
@@ -26,6 +27,10 @@ wire [31:0]Shiftimm = {{27{1'b0}},Iimm[4:0]};
 
 always@(*)
 begin
+
+if (hold === 1) {Branch_cntr,Jal,Jalr} <= 5'b00000;
+
+else begin
 
 case(instr[6:0])
 
@@ -252,7 +257,10 @@ case(instr[6:0])
 			imm <= Iimm;
 			end
 	
-endcase	
+endcase
+
+end
+	
 end
 
 //IMMEDIATE DECODER

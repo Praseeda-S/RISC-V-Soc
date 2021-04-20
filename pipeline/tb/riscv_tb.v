@@ -10,7 +10,7 @@ riscv32b_fpga fpga0(
 .gpio_o	(gpio)
 );
 
-always #5 clk = ~clk;
+always #2 clk = ~clk;
 
 initial
 begin
