@@ -1,5 +1,4 @@
 module exe #(parameter WIDTH=32)(
-input wire clk,
 input wire [31:0]imm,
 input wire [1:0] ALUb,
 input wire [1:0] ALUa,
