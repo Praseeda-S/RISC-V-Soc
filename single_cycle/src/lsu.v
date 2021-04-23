@@ -39,7 +39,7 @@ begin
 
 case (MemtoReg)
 	2'b01:	reg_wrdata <= alu_out;
-	2'b10:	reg_wrdata <= {{30{1'b0}}, alu_ov_flag};
+	2'b10:	reg_wrdata <= {{31{1'b0}}, alu_ov_flag};
 	2'b11:	case(Ld_cntr)
 			3'b000:	reg_wrdata <= datamem_rd_in;
 			3'b001:	reg_wrdata <= {{16{datamem_rd_in[15]}},datamem_rd_in[15:0]};
