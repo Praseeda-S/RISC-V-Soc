@@ -90,7 +90,6 @@ idecode decodeunit(
 );
 
 exe	exeunit(
-.clk		(clk),
 .imm		(imm_data),
 .ALUb		(ALUb),
 .ALUa		(ALUa),
