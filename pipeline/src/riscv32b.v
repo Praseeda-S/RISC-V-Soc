@@ -36,6 +36,7 @@ wire alu_z_flag;
 
 wire [31:0] imm_data;
 wire pcbranch;
+wire [31:0] pc;
 
 // control signals
 wire cpu_wait;
@@ -75,7 +76,8 @@ ifetch fetchunit(
 .pcbranch	(pcbranch),
 .instr_in	(instr_in),
 .instr_reg	(instr),
-.cpu_wait	(cpu_wait)
+.cpu_wait	(cpu_wait),
+.pc_if2id	(pc)
 );
 
 idecode decodeunit(
@@ -103,7 +105,7 @@ exe	exeunit(
 .alu_cntr	(ALU_cntr),
 .Rd1		(rs1),
 .Rd2		(rs2),
-.pc		(instr_addr),
+.pc		(pc),
 .branch_cntr	(Branch_cntr),
 .alu_result	(alu_out),
 .ov_flag	(alu_ov_flag),
