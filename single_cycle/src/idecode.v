@@ -75,7 +75,7 @@ case(instr[6:0])
 	
 	7'b0110011:	//------------------R Type--------------------
 			begin
-			{RegW,Branch_cntr,Jal,Jalr} <= 7'b100000;
+			{RegW,Branch_cntr,Jal,Jalr} <= 6'b100000;
 			St_cntr <= 2'b00;
 			Ld_cntr <= 3'b000;
 			case(instr[14:12])
