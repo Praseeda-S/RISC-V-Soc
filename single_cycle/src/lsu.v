@@ -17,10 +17,10 @@ assign data_addr = alu_out;
 
 wire [1:0]b_pos = alu_out[1:0];
 
-wire [7:0] d0 = datamem_wr_in[7:0];
+/*wire [7:0] d0 = datamem_wr_in[7:0];
 wire [7:0] d1 = datamem_wr_in[15:8];
 wire [7:0] d2 = datamem_wr_in[23:16];
-wire [7:0] d3 = datamem_wr_in[31:24];
+wire [7:0] d3 = datamem_wr_in[31:24];*/
 
 /*assign datamem_wr_o = (b_pos == 2'b00)? {d3,d2,d1,d0}:0;
 assign datamem_wr_o = (b_pos == 2'b01)? {d0,d3,d2,d1}:0;
@@ -59,9 +59,9 @@ case(St_cntr)
 	2'b01:	dmem_wr <= 4'b1111;
 	2'b10:	case (b_pos)
 		2'b00:	dmem_wr <= 4'b0011;
-		2'b01:	dmem_wr <= 4'b0110;
+		//2'b01:	dmem_wr <= 4'b0110;
 		2'b10:	dmem_wr <= 4'b1100;
-		2'b11:	dmem_wr <= 4'b1000;
+		//2'b11:	dmem_wr <= 4'b1000;
 		endcase
 	2'b11:	case (b_pos)
 		2'b00:	dmem_wr <= 4'b0001;
@@ -75,12 +75,13 @@ end
 always@(*)
 begin
 
-case (b_pos)
+datamem_wr_o <= datamem_wr_in << (b_pos*8);
+/*case (b_pos)
 	2'b00:	datamem_wr_o <= {d3,d2,d1,d0};
 	2'b01:	datamem_wr_o <= {d2,d1,d0,d3};
 	2'b10:	datamem_wr_o <= {d1,d0,d3,d2};
 	2'b11:	datamem_wr_o <= {d0,d3,d2,d1};
-endcase
+endcase*/
 end
 		 
 endmodule
