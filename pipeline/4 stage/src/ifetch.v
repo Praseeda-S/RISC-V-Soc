@@ -1,14 +1,14 @@
 module ifetch(
-input		clk,
-input 		rstn,
-output	[31:0]	instr_addr_o,
-input	[31:0]	rs1,
-input 	[31:0]	immediate,
-input 		jal,jalr,pcbranch,
-input   [31:0]  instr_in,
-output reg[31:0]  instr_reg,
-output reg 	  cpu_wait,
-output reg[31:0]  pc_if2id		
+input			clk,
+input 			rstn,
+output	  [31:0]	instr_addr_o,
+input	  [31:0]	rs1,
+input 	  [31:0]	immediate,
+input 			jal,jalr,pcbranch,
+input     [31:0]  	instr_in,
+output reg[31:0]  	instr_reg,
+output reg 	  	cpu_wait,
+output reg[31:0]  	pc_if2id		
 );
 
 wire pc_error = jal|jalr|pcbranch;

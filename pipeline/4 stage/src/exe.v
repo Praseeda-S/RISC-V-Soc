@@ -1,27 +1,27 @@
 module exe #(parameter WIDTH=32)(
-input wire clk,
-input wire [31:0]imm,
-input wire [1:0] ALUb,
-input wire [1:0] ALUa,
-input wire [3:0] alu_cntr,
-input wire [31:0]Rd1,Rd2,
-input wire [31:0]pc_id2exe,
-input wire [2:0] branch_cntr,
-input wire [1:0] Memtoreg_id2exe,
-input wire [2:0] Ld_cntr_id2exe,
-input wire [1:0] St_cntr_id2exe,
-input wire       RegW_id2exe,
-input wire [4:0] wr_addr_id2exe,
-output reg    [31:0]alu_result,
-output reg       ov_flag, 
-output     z_flag, 
-output reg pcbranch,
-output reg [1:0] Memtoreg_exe2lsu,
-output reg [2:0] Ld_cntr_exe2lsu,
-output reg [1:0] St_cntr_exe2lsu,
-output reg [31:0] Rd2_exe2lsu,
-output reg RegW_exe2lsu,
-output reg [4:0] wr_addr_exe2lsu
+input wire 		clk,
+input wire [31:0]	imm,
+input wire [1:0] 	ALUb,
+input wire [1:0] 	ALUa,
+input wire [3:0] 	alu_cntr,
+input wire [31:0]	Rd1,Rd2,
+input wire [31:0]	pc_id2exe,
+input wire [2:0]	branch_cntr,
+input wire [1:0] 	Memtoreg_id2exe,
+input wire [2:0] 	Ld_cntr_id2exe,
+input wire [1:0] 	St_cntr_id2exe,
+input wire       	RegW_id2exe,
+input wire [4:0] 	wr_addr_id2exe,
+output reg    [31:0]	alu_result,
+output reg       	ov_flag, 
+output     		z_flag, 
+output reg 		pcbranch,
+output reg [1:0] 	Memtoreg_exe2lsu,
+output reg [2:0] 	Ld_cntr_exe2lsu,
+output reg [1:0] 	St_cntr_exe2lsu,
+output reg [31:0] 	Rd2_exe2lsu,
+output reg 		RegW_exe2lsu,
+output reg [4:0] 	wr_addr_exe2lsu
 );
 //-------------------------------------------------------------------
 
@@ -74,10 +74,11 @@ end
 //-----------------------------------------------------------------------
 
 
+
+//ALU
 wire overflow;
 wire z_flag;
 wire [31:0] result;
-//ALU
 
 alu #(	.WIDTH(WIDTH)
 ) 

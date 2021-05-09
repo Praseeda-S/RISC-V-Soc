@@ -1,21 +1,21 @@
 module idecode(
-input clk,
-input hold,
-input [31:0]instr,
-input [31:0]pc_if2id,
-input [4:0] wr_addr,
-output reg RegW,
-output reg [1:0]Memtoreg,
-output reg [1:0]St_cntr,
-output reg [2:0]Ld_cntr,
-output reg [1:0]ALUa,
-output reg [1:0]ALUb,
-output reg [3:0]ALU_cntr,
-output reg [31:0]imm,
-output reg [2:0]Branch_cntr,
-output reg Jal, Jalr,
-output reg [31:0]pc_id2exe,
-output reg [4:0]wr_addr_id2exe
+input 			clk,
+input 			hold,
+input [31:0]		instr,
+input [31:0]		pc_if2id,
+input [4:0]		wr_addr,
+output reg 		RegW,
+output reg [1:0]	Memtoreg,
+output reg [1:0]	St_cntr,
+output reg [2:0]	Ld_cntr,
+output reg [1:0]	ALUa,
+output reg [1:0]	ALUb,
+output reg [3:0]	ALU_cntr,
+output reg [31:0]	imm,
+output reg [2:0]	Branch_cntr,
+output reg 		Jal, Jalr,
+output reg [31:0]	pc_id2exe,
+output reg [4:0]	wr_addr_id2exe
 );
 
 reg [2:0]Immc;
@@ -31,9 +31,7 @@ wire [31:0]Shiftimm = {{27{1'b0}},Iimm[4:0]};
 
 always@(posedge clk)
 begin
-
 if (hold === 1) {Branch_cntr,Jal,Jalr} <= 5'b00000;
-
 else begin
 
 case(instr[6:0])
@@ -266,20 +264,6 @@ end
 pc_id2exe <= pc_if2id;
 wr_addr_id2exe <= wr_addr;	
 end
-
-//IMMEDIATE DECODER
-
-/*
-case(Immc)
-	3'b000: imm = Uimm;
-	3'b001: imm = Iimm;
-	3'b010: imm = SBimm;
-	3'b011: imm = UJimm;
-	3'b100: imm = Simm;
-	3'b101: imm = Shiftimm;
-	default: imm = Iimm;
-endcase
-*/
 
 endmodule
 

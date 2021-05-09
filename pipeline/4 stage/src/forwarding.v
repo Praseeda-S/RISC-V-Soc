@@ -11,7 +11,6 @@ output reg [31:0] rs1_input,
 output reg [31:0] rs2_input
 );
 
-wire [1:0] rs1_haz, rs2_haz;
 
 always @(*)
 begin 
