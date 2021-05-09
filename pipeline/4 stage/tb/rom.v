@@ -9,6 +9,6 @@ wire [9:0] addr = addr_in[11:2];
 assign data_out = rom_reg[addr];
 
 initial 
-	$readmemb("irom_hex8.txt", rom_reg);
+	$readmemb("irom_hex9.txt", rom_reg);
 
 endmodule

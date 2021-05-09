@@ -61,6 +61,15 @@ wire [2:0] Branch_cntr;
 
 wire [31:0]data_out;
 
+// for data hazard 
+wire [1:0]     rs1_hazard;
+wire [1:0]     rs2_hazard;
+wire [31:0]    rs1_input;
+wire [31:0]    rs2_input;
+wire [31:0]    result;
+wire [31:0]    memtoreg_data_DH;
+
+
 
 registers regset(
 .clk		(clk),
@@ -94,7 +103,7 @@ idecode decodeunit(
 .hold		(cpu_wait),
 .instr		(instr),
 .pc_if2id       (pc),
-.wr_addr        (reg_addr3),
+.wr_addr   (reg_addr3),
 .RegW		(reg_wr),
 .Memtoreg	(mem_to_reg),
 .St_cntr	(St_cntr),
@@ -116,8 +125,8 @@ exe	exeunit(
 .ALUb		(ALUb),
 .ALUa		(ALUa),
 .alu_cntr	(ALU_cntr),
-.Rd1		(rs1),
-.Rd2		(rs2),
+.Rd1		(rs1_input),
+.Rd2		(rs2_input),
 .pc_id2exe      (pc2),
 .branch_cntr	(Branch_cntr),
 .Memtoreg_id2exe (mem_to_reg),
@@ -135,6 +144,7 @@ exe	exeunit(
 .Rd2_exe2lsu     (rs22),
 .RegW_exe2lsu    (reg_wr1),
 .wr_addr_exe2lsu (reg_addr32)
+
 );
 
 lsu lsuunit(
@@ -154,6 +164,32 @@ lsu lsuunit(
 .RegW_lsu2reg   (reg_wr2),
 .wr_addr_exe2lsu (reg_addr32),
 .wr_addr_lsu2reg (reg_addr33)
+);
+
+datahazard datahardunit(
+.clk			(clk),
+.reg_addr1		(reg_addr1),
+.reg_addr2		(reg_addr2),
+.reg_addr31		(reg_addr31),
+.reg_addr33		(reg_addr33),
+.reg_wr1		(reg_wr1),
+.reg_wr2		(reg_wr2),
+.rs1_hazard		(rs1_hazard),
+.rs2_hazard		(rs2_hazard),
+.memtoreg_data		(memtoreg_data),
+.memtoreg_data_DH       (memtoreg_data_DH)
+);
+
+forwarding forwardingunit(
+.clk			(clk),
+.memtoreg_data		(memtoreg_data_DH),
+.rs1_hazard		(rs1_hazard),
+.rs2_hazard		(rs2_hazard),
+.result 		(alu_out),
+.rs1			(rs1),
+.rs2			(rs2),
+.rs1_input		(rs1_input),
+.rs2_input		(rs2_input)
 );
 
 endmodule

@@ -15,7 +15,6 @@ input wire [4:0] wr_addr_id2exe,
 output reg    [31:0]alu_result,
 output reg       ov_flag, 
 output     z_flag, 
-output     [31:0] result,
 output reg pcbranch,
 output reg [1:0] Memtoreg_exe2lsu,
 output reg [2:0] Ld_cntr_exe2lsu,
@@ -25,6 +24,8 @@ output reg RegW_exe2lsu,
 output reg [4:0] wr_addr_exe2lsu
 );
 //-------------------------------------------------------------------
+
+
 
 //ASSIGNING TO REGISTERS FOR PIPELINING
 
@@ -75,7 +76,7 @@ end
 
 wire overflow;
 wire z_flag;
-
+wire [31:0] result;
 //ALU
 
 alu #(	.WIDTH(WIDTH)

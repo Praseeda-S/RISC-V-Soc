@@ -14,6 +14,7 @@ input 	[31:0] 	datamem_rd_in,
 input           RegW_exe2lsu,
 output reg      RegW_lsu2reg,
 input [4:0]     wr_addr_exe2lsu,
+output reg [31:0] memtoreg_data_DH,
 output reg [4:0]wr_addr_lsu2reg
 );
 
@@ -38,7 +39,12 @@ assign dmem_wr[2] = (~St_cntr[1] & St_cntr[0]) | (St_cntr[1] & ((~St_cntr[0] & ~
 assign dmem_wr[3] = (~St_cntr[1] & St_cntr[0]) | (St_cntr[1] & b_pos[1] & ((~St_cntr[0] & ~b_pos[0]) | b_pos[0])); 
 */
 
-
+always@(*)
+begin
+RegW_lsu2reg <= RegW_exe2lsu;
+wr_addr_lsu2reg <= wr_addr_exe2lsu;
+end
+	
 always@(*)
 begin
 
@@ -64,9 +70,7 @@ case(St_cntr)
 	2'b01:	dmem_wr <= 4'b1111;
 	2'b10:	case (b_pos)
 		2'b00:	dmem_wr <= 4'b0011;
-		//2'b01:	dmem_wr <= 4'b0110;
 		2'b10:	dmem_wr <= 4'b1100;
-		//2'b11:	dmem_wr <= 4'b1000;
 		endcase
 	2'b11:	case (b_pos)
 		2'b00:	dmem_wr <= 4'b0001;

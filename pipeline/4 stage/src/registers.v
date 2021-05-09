@@ -7,8 +7,9 @@ input [4:0]   rs2_addr,
 input [4:0]   w_addr,
 input [31:0]  w_data,
 
-output reg[31:0] rs1_out_id2exe,
-output reg[31:0] rs2_out_id2exe
+//output reg [31:0] w_data_reg,
+output reg [31:0] rs1_out_id2exe,
+output reg [31:0] rs2_out_id2exe
 );
 
 //register array
@@ -17,16 +18,19 @@ reg[31:0] reg_arr[0:31];
 
 //rs1 and rs2 read
 //rs1_addr and rs2_addr from idecoder
-wire rs1_out = reg_arr[rs1_addr]; 
-wire rs2_out = reg_arr[rs2_addr];
+wire [31:0] rs1_out = reg_arr[rs1_addr]; 
+wire [31:0] rs2_out = reg_arr[rs2_addr];
 
 integer i;
 
-always@(posedge clk)
+always @(posedge clk)
 begin
-rs1_out_id2exe <= rs1_out;
-rs2_out_id2exe <= rs2_out;
+ rs1_out_id2exe <= rs1_out;
+ rs2_out_id2exe <= rs2_out;
+ //w_data_reg     <= w_data;
 end
+
+
 
 always @(posedge clk or negedge rstn)
 begin
