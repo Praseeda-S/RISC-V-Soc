@@ -1,6 +1,6 @@
 module idecode(
 input 			clk,
-input 			hold,
+input 			ide_wait,
 input [31:0]		instr,
 input [31:0]		pc_if2id,
 input [4:0]		wr_addr,
@@ -17,7 +17,7 @@ output reg 		Jal, Jalr,
 output reg [31:0]	pc_id2exe,
 output reg [4:0]	wr_addr_id2exe
 );
-
+reg wait1 =0;
 reg [2:0]Immc;
 
 // Immediate parsing
@@ -31,8 +31,14 @@ wire [31:0]Shiftimm = {{27{1'b0}},Iimm[4:0]};
 
 always@(posedge clk)
 begin
-if (hold === 1) {Branch_cntr,Jal,Jalr} <= 5'b00000;
-else begin
+if (ide_wait=== 1) //decoder stall
+begin
+	Jal<=0;
+	Jalr<=0;
+        Branch_cntr <= 3'b000;
+end
+else
+begin
 
 case(instr[6:0])
 
@@ -260,9 +266,10 @@ case(instr[6:0])
 			end
 	
 endcase
-end
 pc_id2exe <= pc_if2id;
-wr_addr_id2exe <= wr_addr;	
+wr_addr_id2exe <= wr_addr;
+end
+	
 end
 
 endmodule

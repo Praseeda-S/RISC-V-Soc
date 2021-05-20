@@ -45,7 +45,7 @@ wire [31:0] pc;
 wire [31:0] pc2;
 
 // control signals
-wire cpu_wait;
+wire ide_wait;
 wire jal;
 wire jalr;
 wire [1:0] mem_to_reg;
@@ -94,13 +94,14 @@ ifetch fetchunit(
 .pcbranch		(pcbranch),
 .instr_in		(instr_in),
 .instr_reg		(instr),
-.cpu_wait		(cpu_wait),
-.pc_if2id		(pc)
+.ide_wait		(ide_wait),
+.pc_if2id		(pc),
+.Branch_cntr            (Branch_cntr)
 );
 
 idecode decodeunit(
 .clk			(clk),
-.hold			(cpu_wait),
+.ide_wait       	(ide_wait),
 .instr			(instr),
 .pc_if2id       	(pc),
 .wr_addr   		(reg_addr3),
