@@ -69,7 +69,9 @@ wire [31:0]    rs2_input;
 wire [31:0]    result;
 wire [31:0]    memtoreg_data_DH;
 
-
+//for branch prediction
+wire      br_taken_reg;
+wire [31:0]    target_address_reg;
 
 registers regset(
 .clk			(clk),
@@ -91,12 +93,12 @@ ifetch fetchunit(
 .immediate		(imm_data),
 .jal			(jal),
 .jalr			(jalr),
-.pcbranch		(pcbranch),
 .instr_in		(instr_in),
 .instr_reg		(instr),
 .ide_wait		(ide_wait),
 .pc_if2id		(pc),
-.Branch_cntr            (Branch_cntr)
+.branch_taken		(br_taken_reg),
+.target_address 	(target_address_reg)
 );
 
 idecode decodeunit(
@@ -190,6 +192,18 @@ forwarding forwardingunit(
 .rs2			(rs2),
 .rs1_input		(rs1_input),
 .rs2_input		(rs2_input)
+);
+
+BranchPrediction bpu(
+.clk			(clk),
+.rstn			(rstn),
+.pcbranch		(pcbranch),
+.pc			(pc),
+.pc_id2exe		(pc2),
+.imm 			(imm_data),
+.Branch_cntr		(Branch_cntr),
+.br_taken_reg		(br_taken_reg),
+.target_address_reg	(target_address_reg)
 );
 
 endmodule
