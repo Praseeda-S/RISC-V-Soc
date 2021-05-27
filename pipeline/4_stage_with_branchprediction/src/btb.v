@@ -44,7 +44,7 @@ begin
         end
 	else
 	begin
-	   if(~hit & (|Branch_cntr))
+	   if(|Branch_cntr)
 	   begin
 	     pc_arr[wr_pos] <= pc_id2exe;
 	     addr_arr[wr_pos] <= pc_id2exe+imm;
