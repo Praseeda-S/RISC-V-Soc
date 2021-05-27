@@ -1,4 +1,4 @@
-module btb#(parameter BLOCKSIZE = 4)(
+module BranchTableBuffer#(parameter BLOCKSIZE = 4)(
 input       clk,
 input       rstn,
 input [31:0]pc,
