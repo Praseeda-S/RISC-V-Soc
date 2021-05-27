@@ -1,4 +1,4 @@
-module bhr #(parameter REGSIZE=2)(
+module BranchHistoryRegister #(parameter REGSIZE=2)(
 input       clk,
 input       rstn,
 input       bhr_en,
