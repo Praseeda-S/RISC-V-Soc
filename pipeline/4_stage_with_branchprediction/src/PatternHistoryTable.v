@@ -17,24 +17,23 @@ begin
   if(~rstn)
   begin
     for(i = 0;i<2**REGSIZE;i = i+1) 
-	hist_table[i]<=2'b10;
+	hist_table[i]<=2'b01;
   end
   else
   begin
     if(en)
     begin
-      if (pcbranch===1)
+      if (pcbranch==1)
       begin
-        if(hist_table[pattern_addr] ===2'b00 || hist_table[pattern_addr] ===2'b01|| hist_table[pattern_addr]===2'b10)
-	   hist_table[pattern_addr] <= hist_table[pattern_addr] +1;
+        if(hist_table[pattern_addr] ==2'b00 || hist_table[pattern_addr] ==2'b01|| hist_table[pattern_addr]==2'b10)
+	   hist_table[pattern_addr] <= hist_table[pattern_addr] + 2'b01;
       end
-      else if (pcbranch===0)
+      else if (pcbranch==0)
       begin
-        if(hist_table[pattern_addr] ===2'b01 || hist_table[pattern_addr] ===2'b10 || hist_table[pattern_addr]===2'b11)
-	   hist_table[pattern_addr] <= hist_table[pattern_addr] - 1;
+        if(hist_table[pattern_addr] ==2'b01 || hist_table[pattern_addr] ==2'b10 || hist_table[pattern_addr]==2'b11)
+	   hist_table[pattern_addr] <= hist_table[pattern_addr] - 2'b01;
       end
      end
   end
 end
 endmodule
-

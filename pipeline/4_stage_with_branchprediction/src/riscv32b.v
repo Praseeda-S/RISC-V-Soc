@@ -41,11 +41,14 @@ wire alu_z_flag;
 
 wire [31:0] imm_data;
 wire pcbranch;
+
 wire [31:0] pc;
+wire [31:0] pc1;
 wire [31:0] pc2;
 
 // control signals
 wire ide_wait;
+wire exe_wait;
 wire jal;
 wire jalr;
 wire [1:0] mem_to_reg;
@@ -59,6 +62,9 @@ wire [1:0] ALUb;
 wire [3:0] ALU_cntr;
 wire [2:0] Branch_cntr;
 
+wire	   br_taken;
+wire [31:0]target_addr;
+
 wire [31:0]data_out;
 
 // for data hazard 
@@ -69,9 +75,7 @@ wire [31:0]    rs2_input;
 wire [31:0]    result;
 wire [31:0]    memtoreg_data_DH;
 
-//for branch prediction
-wire      br_taken_reg;
-wire [31:0]    target_address_reg;
+
 
 registers regset(
 .clk			(clk),
@@ -93,19 +97,23 @@ ifetch fetchunit(
 .immediate		(imm_data),
 .jal			(jal),
 .jalr			(jalr),
+.pcbranch		(pcbranch),
 .instr_in		(instr_in),
 .instr_reg		(instr),
 .ide_wait		(ide_wait),
-.pc_if2id		(pc),
-.branch_taken		(br_taken_reg),
-.target_address 	(target_address_reg)
+.exe_wait		(exe_wait),
+.pc_if2id		(pc1),
+.pc			(pc),
+.Branch_cntr            (Branch_cntr),
+.bpu_branch		(br_taken),
+.bpu_addr		(target_addr)
 );
 
 idecode decodeunit(
 .clk			(clk),
 .ide_wait       	(ide_wait),
 .instr			(instr),
-.pc_if2id       	(pc),
+.pc_if2id       	(pc1),
 .wr_addr   		(reg_addr3),
 .RegW			(reg_wr),
 .Memtoreg		(mem_to_reg),
@@ -124,6 +132,7 @@ idecode decodeunit(
 
 exe	exeunit(
 .clk			(clk),
+.exe_wait		(exe_wait),
 .imm			(imm_data),
 .ALUb			(ALUb),
 .ALUa			(ALUa),
@@ -202,8 +211,8 @@ BranchPrediction bpu(
 .pc_id2exe		(pc2),
 .imm 			(imm_data),
 .Branch_cntr		(Branch_cntr),
-.br_taken_reg		(br_taken_reg),
-.target_address_reg	(target_address_reg)
+.br_taken_reg		(br_taken),
+.target_address_reg	(target_addr)
 );
 
 endmodule

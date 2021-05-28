@@ -4,7 +4,7 @@ input       rstn,
 input       bhr_en,
 input       bhr_in,
 
-output reg [REGSIZE-1:0] bhr_out
+output reg [REGSIZE-1:0] bhr_out 
 );
 
 

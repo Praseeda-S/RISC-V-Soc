@@ -1,5 +1,6 @@
 module exe #(parameter WIDTH=32)(
 input wire clk,
+input		 exe_wait,
 input wire [31:0]imm,
 input wire [1:0] ALUb,
 input wire [1:0] ALUa,
@@ -25,20 +26,44 @@ output reg [4:0] wr_addr_exe2lsu
 );
 //-------------------------------------------------------------------
 
-
+reg stall1;
+reg stall2;
 
 //ASSIGNING TO REGISTERS FOR PIPELINING
 
 always@(posedge clk)
 begin
-Memtoreg_exe2lsu <= Memtoreg_id2exe;
-Ld_cntr_exe2lsu <=  Ld_cntr_id2exe;
-St_cntr_exe2lsu <= St_cntr_id2exe;
-ov_flag <= overflow;
-alu_result <= result;
-Rd2_exe2lsu <= Rd2;
-RegW_exe2lsu <= RegW_id2exe;
-wr_addr_exe2lsu <= wr_addr_id2exe;
+
+if (exe_wait|stall1)
+  begin
+	RegW_exe2lsu <= 0;
+	St_cntr_exe2lsu <= 0;
+	if (stall1!=1)	stall1 <= 1;
+	else
+	begin	
+		if (stall2!=1)	stall2 <= 1;
+		else
+		begin
+			stall1 <= 0;
+			stall2 <= 0;
+		end
+	end	
+  end
+
+else
+  begin
+	stall1 <= 0;
+	stall2 <= 0;
+	Memtoreg_exe2lsu <= Memtoreg_id2exe;
+	Ld_cntr_exe2lsu <=  Ld_cntr_id2exe;
+	St_cntr_exe2lsu <= St_cntr_id2exe;
+	ov_flag <= overflow;
+	alu_result <= result;
+	Rd2_exe2lsu <= Rd2;
+	RegW_exe2lsu <= RegW_id2exe;
+	wr_addr_exe2lsu <= wr_addr_id2exe;
+  end
+
 end
 //-------------------------------------------------------------------
 
