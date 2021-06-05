@@ -43,12 +43,22 @@ end*/
 assign br_taken_reg = br_taken;
 assign target_address_reg = target_address;
 
-always@(posedge clk)
+always@(posedge clk or negedge rstn)//add reset
 begin
+  if(~rstn)
+  begin
+    hit_d1 <= 0;
+    hit_d2 <= 0;
+
+    Branch_cntr_d <= 0 ;
+  end
+  else
+  begin
 	hit_d1 <= hit;
 	hit_d2 <= hit_d1;
 
-	Branch_cntr_d <= (|Branch_cntr) ; //for bhr and pht enable signals.	
+	Branch_cntr_d <= (|Branch_cntr) ; //for bhr and pht enable signals.
+  end	
 end
 
 assign btb_wr = (~hit_d2  & (|Branch_cntr));
