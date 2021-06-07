@@ -14,14 +14,21 @@ assign z_flag = (alu_result == 0)? 1:0;
 assign o_flag = (alu_cntr[2:0] == 3'b100)? slt_reg : 0;
 
 
-always@(a or b or alu_cntr)
+always@(*)
 begin
 case(alu_cntr[3])
 1'b0:	//-----------------------------UNSIGNED OPERATIONS [sltiu, sltu, bgeu, bltu]
 	begin
 	if (alu_cntr[2:0] == 3'b100)
+		begin
 		alu_result <= unsigned_in_a - unsigned_in_b;
-		slt_reg <= (unsigned_in_a < unsigned_in_b);	
+		slt_reg <= (unsigned_in_a < unsigned_in_b);
+		end
+	else
+		begin
+		alu_result <= 0;
+		slt_reg <= 0;
+		end
 	end
 1'b1:	//-------------------------------SIGNED OPERATIONS
 	begin 
@@ -37,8 +44,13 @@ case(alu_cntr[3])
 		3'b101:	alu_result <= a << b;
 		3'b110:	alu_result <= a >> b;
 		3'b111:	alu_result <= a >>> b;
+		default: alu_result <= 0;
 	endcase
 	end
+default: begin
+	 alu_result <= 0;
+	 slt_reg <= 0;
+	 end
 endcase
 end
 endmodule
