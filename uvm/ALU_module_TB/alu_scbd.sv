@@ -27,7 +27,7 @@ class alu_scbd extends uvm_scoreboard;
           $display("time = %tns pkt.o_flag=%h o_flag_exp=%h pkt.z_flag=%h z_flag_exp=%h pkt.alu_result=%h alu_result_exp=%h",$time, pkt.o_flag, o_flag_exp,pkt.z_flag,z_flag_exp,pkt.alu_result,alu_result_exp);
         $display("\\----------------------------------------------------------\\");
         $display("//----------------------------------------------------------//");
-        $display("--------------------------TEST PASSED----------------------");
+        $display("--------------------------TEST IS PASSED----------------------");
         $display("\\----------------------------------------------------------\\");
         $display("//----------------------------------------------------------//");
 		//count++
@@ -40,7 +40,7 @@ class alu_scbd extends uvm_scoreboard;
       $display("time=%tns pkt.o_flag=%h o_flag_exp=%h pkt.z_flag=%h z_flag_exp=%h pkt.alu_result=%h alu_result_exp=%h",$time, pkt.o_flag, o_flag_exp,pkt.z_flag,z_flag_exp,pkt.alu_result,alu_result_exp);
 	    $display("\\----------------------------------------------------------\\");
         $display("//----------------------------------------------------------//");
-			$display("----------------------TEST FAILED------------------------");
+          $display("----------------------TEST IS Failed------------------------");
         $display("\\----------------------------------------------------------\\");
         $display("//----------------------------------------------------------//");
 		//count++;
@@ -54,31 +54,59 @@ class alu_scbd extends uvm_scoreboard;
 		bit [31:0] ung_b = $unsigned(pkt.b);
 		bit reg_intern;
 		count++;
-		
-		if(pkt.alu_cntr[3] == 0)begin
-			if(pkt.alu_cntr[2:0] == 3'b100) begin
-				alu_result_exp = ung_a -ung_b;
-				reg_intern = (ung_a < ung_b);
-			end
-		end
-		
-		else if(pkt.alu_cntr[3] == 1)begin
-			case(pkt.alu_cntr[2:0])
-				3'b000: alu_result_exp = pkt.a + pkt.b;
-				3'b001: alu_result_exp = pkt.a & pkt.b;
-				3'b010: alu_result_exp = pkt.a ^ pkt.b;
-				3'b011: alu_result_exp = pkt.a | pkt.b;
-				3'b100: begin
-					alu_result_exp = pkt.a - pkt.b;
-					reg_intern = (pkt.a<pkt.b);
+		begin
+			if( pkt.alu_cntr[3] ) begin
+				if (pkt.alu_cntr[2:0] == 3'b000) begin
+					alu_result_exp = pkt.a < pkt.b;
 				end
-				3'b101: alu_result_exp = pkt.a<<pkt.b;
-				3'b110: alu_result_exp = pkt.a>>pkt.b;
-				3'b111: alu_result_exp = pkt.a>>>pkt.b;
-			endcase
+				else if (pkt.alu_cntr[2:0] == 3'b001) begin
+						alu_result_exp = pkt.a & pkt.b;
+				end
+				else if (pkt.alu_cntr[2:0] == 3'b010) begin
+						alu_result_exp = pkt.a ^ pkt.b;
+				end
+				else if (pkt.alu_cntr[2:0] == 3'b011) begin
+						alu_result_exp = pkt.a | pkt.b;
+				end
+				else if (pkt.alu_cntr[2:0] == 3'b100) begin
+						alu_result_exp = pkt.a - pkt.b;
+						reg_intern = pkt.a < pkt.b;
+				end
+				else if (pkt.alu_cntr[2:0] == 3'b101) begin
+						alu_result_exp = pkt.a << pkt.b;
+				end
+				else if (pkt.alu_cntr[2:0] == 3'b110) begin
+						alu_result_exp = pkt.a >> pkt.b;
+				end
+				else if (pkt.alu_cntr[2:0] == 3'b111) begin
+						alu_result_exp = pkt.a >>> pkt.b;
+				end
+				else 	alu_result_exp = 0;
+			end
+			else begin
+				if (pkt.alu_cntr [2:0] == 3'b100) begin
+					alu_result_exp = ung_a - ung_b;
+					reg_intern = ung_a < ung_b;
+				end
+				else begin
+					alu_result_exp = 0;
+					reg_intern = 0;	
+				end
+			end
+			if (alu_result_exp==0) 
+				z_flag_exp =1;
+				else 
+					z_flag_exp=0;
+
+			if (pkt.alu_cntr[2:0] == 3'b100) 
+				o_flag_exp = reg_intern;
+			
+				else 
+					o_flag_exp = 0;
+			//z_flag_exp = (alu_result_exp==0)?1:0;
+			//o_flag_exp = (pkt.alu_cntr[2:0] == 3'b100)? reg_intern:0;
 		end
-		z_flag_exp = (alu_result_exp==0)?1:0;
-		o_flag_exp = (pkt.alu_cntr[2:0] == 3'b100)? reg_intern:0;
+	
 
 	endtask
 	 virtual function void report_phase(uvm_phase phase);
@@ -90,7 +118,7 @@ class alu_scbd extends uvm_scoreboard;
         $display("                                                              ");
         $display("//---------------------FINAL RESULT-------------------------//");
         $display("\\----------------------------------------------------------\\");
-	   $display("-----------------------TOTAL TESTCASES FIRED = %0d---------------",count);
+        $display("-----------------------TOTAL TEST FIRED = %0d---------------",count);
         $display("-----------------------TESTCASE PASSED = %0d---------",testcase_passed);
         $display("-----------------------TESTCASE FAILED = %0d---------",testcase_failed);
         $display("\\----------------------------------------------------------\\");
@@ -102,6 +130,9 @@ class alu_scbd extends uvm_scoreboard;
       end
   endfunction
 endclass
+
+
+
 
 
 
