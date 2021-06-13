@@ -1,3 +1,5 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+
 module riscv_tb;
 
 reg clk = 1'b0;
