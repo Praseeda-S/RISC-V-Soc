@@ -1,3 +1,5 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+
 module exe #(parameter WIDTH=32)(
 input wire clk,
 input		 exe_wait,
