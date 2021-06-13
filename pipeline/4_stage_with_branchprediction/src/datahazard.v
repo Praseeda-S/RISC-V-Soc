@@ -1,3 +1,5 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+
 module datahazard(
 input wire clk,
 input wire [4:0] reg_addr1,
