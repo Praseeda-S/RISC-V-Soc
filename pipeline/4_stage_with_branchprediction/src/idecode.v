@@ -1,3 +1,5 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+
 module idecode(
 input 			clk,
 input 			ide_wait,
