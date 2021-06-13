@@ -1,3 +1,5 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+
 module lsu(
 input		clk,
 input	[31:0] 	alu_out_exe2lsu,
