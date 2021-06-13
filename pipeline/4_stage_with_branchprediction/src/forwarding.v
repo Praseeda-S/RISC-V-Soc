@@ -1,3 +1,5 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+
 module forwarding(
 input 		  clk,
 input wire [31:0] memtoreg_data,
