@@ -1,4 +1,13 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+/********************************************************************************************************
+Github Repo : 
+Date        :
+Authors      : Praseeda S, Parvathy PH, Sanjana AR, Anna Sebastine
+College      : College of Engineering, Trivandrum
+Project Name : Vriddhi - Design and Verification of RISC-V based core
+Design Name  : Instruction Fetch
+Module Name  : ifetch 
+Description  : Updates program counter (PC) and fetches 32-bit instruction from instruction memory (ROM)
+*********************************************************************************************************/
 
 module ifetch(
 input			clk,
