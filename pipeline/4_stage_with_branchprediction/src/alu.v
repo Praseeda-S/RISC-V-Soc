@@ -1,3 +1,4 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
 module alu #(parameter WIDTH=32)(
 input          [3:0]    alu_cntr,
 input signed   [WIDTH-1:0]    a, b,

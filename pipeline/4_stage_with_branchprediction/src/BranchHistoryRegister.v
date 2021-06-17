@@ -1,3 +1,4 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
 module BranchHistoryRegister #(parameter REGSIZE=2)(
 input  clk,
 input  rstn,

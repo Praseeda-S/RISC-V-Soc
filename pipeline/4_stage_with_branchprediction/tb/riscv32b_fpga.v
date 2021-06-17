@@ -1,3 +1,4 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
 module riscv32b_fpga(
 input clk,
 input rstn,

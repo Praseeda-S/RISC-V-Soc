@@ -1,3 +1,4 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
 module PatternHistoryTable #(parameter REGSIZE=2)(
 input wire clk,
 input wire rstn,

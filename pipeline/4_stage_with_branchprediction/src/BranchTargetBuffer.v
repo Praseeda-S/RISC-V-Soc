@@ -1,3 +1,4 @@
+//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
 module BranchTargetBuffer #(parameter BLOCKSIZE = 4)(
 input       clk,
 input       rstn,
