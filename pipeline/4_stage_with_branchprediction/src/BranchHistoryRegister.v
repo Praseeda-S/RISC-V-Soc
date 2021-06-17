@@ -1,16 +1,11 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
-
 module BranchHistoryRegister #(parameter REGSIZE=2)(
-input       clk,
-input       rstn,
-input       bhr_en,
-input       bhr_in,
-
+input  clk,
+input  rstn,
+input  bhr_en,
+input  bhr_in,
 output reg [REGSIZE-1:0] bhr_out 
 );
 
-
-integer i;
 
 always@(posedge clk or negedge rstn)
 begin

@@ -1,15 +1,11 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
-
 module registers(
-input         clk,
-input         rstn,
-input         write,
-input [4:0]   rs1_addr,
-input [4:0]   rs2_addr,
-input [4:0]   w_addr,
+input clk,
+input rstn,
+input write,
+input [4:0] rs1_addr,
+input [4:0] rs2_addr,
+input [4:0] w_addr,
 input [31:0]  w_data,
-
-//output reg [31:0] w_data_reg,
 output reg [31:0] rs1_out_id2exe,
 output reg [31:0] rs2_out_id2exe
 );
@@ -29,7 +25,6 @@ always @(posedge clk)
 begin
  rs1_out_id2exe <= rs1_out;
  rs2_out_id2exe <= rs2_out;
- //w_data_reg     <= w_data;
 end
 
 
@@ -43,8 +38,9 @@ begin
          reg_arr[i] <= 0;
    end
  else if(write)
-	 begin
-	 if (w_addr != 0)
+    begin
+	 i = 0; //to avoid ineferred latches.
+    if (w_addr != 0)
            reg_arr[w_addr] <= w_data;
          end
 end

@@ -1,15 +1,15 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+module riscv_tb(output out);
 
-module riscv_tb;
-
-reg clk = 1'b0;
-reg rstn;
+reg  clk = 1'b0;
+reg  rstn;
 wire [7:0] gpio;
 
+assign out=1'b0;
+
 riscv32b_fpga fpga0(
-.clk	(clk),
-.rstn	(rstn),
-.gpio_o	(gpio)
+.clk  (clk),
+.rstn (rstn),
+.gpio_o  (gpio)
 );
 
 always #2 clk = ~clk;
