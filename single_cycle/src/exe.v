@@ -1,4 +1,5 @@
 module exe #(parameter WIDTH=32)(
+input wire clk,
 input wire [31:0]imm,
 input wire [1:0] ALUb,
 input wire [1:0] ALUa,
@@ -64,7 +65,7 @@ alu_inst(	.alu_cntr(alu_cntr),
 
 // BRANCH CONTROL
 
-always@(*)
+always@(posedge clk)
 begin
 	case(branch_cntr)
 	3'b001:		pcbranch <= ({ov_flag,z_flag}==2'b01)? 1'b1:1'b0;	//---------beq	
