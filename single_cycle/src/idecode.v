@@ -1,5 +1,6 @@
 module idecode(
 input clk,
+input rstn,
 input [31:0]instr,
 output reg RegW,
 output reg [1:0]Memtoreg,
@@ -24,9 +25,12 @@ wire [31:0]Simm = {{20{instr[31]}}, instr[31:25],instr[11:7]};
 wire [31:0]Shiftimm = {{27{1'b0}},Iimm[4:0]};
 
 
-always@(*)
+always@(posedge clk or negedge rstn)
 begin
 
+if(~rstn){RegW,Memtoreg,ALUa,ALUb,Branch_cntr,Jal,Jalr,ALU_cntr,St_cntr,Ld_cntr} <= 21'b000000000000000000000;
+
+else begin
 case(instr[6:0])
 
 	7'b0000011:	//-----------load---------------
@@ -253,6 +257,7 @@ case(instr[6:0])
 			end
 	
 endcase	
+end
 end
 
 //IMMEDIATE DECODER
