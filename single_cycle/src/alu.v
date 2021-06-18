@@ -10,12 +10,14 @@ wire [WIDTH-1:0] unsigned_in_b = $unsigned(b);
 
 reg slt_reg;
 
-assign z_flag = (alu_result == 0)? 1:0;
-assign o_flag = (alu_cntr[2:0] == 3'b100)? slt_reg : 0;
+assign z_flag = (alu_result == 0)? 1'b1:1'b0;
+assign o_flag = (alu_cntr[2:0] == 3'b100)? slt_reg : 1'b0;
 
 
 always@(*)
 begin
+alu_result <= 0;
+slt_reg <= 0;
 case(alu_cntr[3])
 1'b0:	//-----------------------------UNSIGNED OPERATIONS [sltiu, sltu, bgeu, bltu]
 	begin
@@ -24,12 +26,13 @@ case(alu_cntr[3])
 		alu_result <= unsigned_in_a - unsigned_in_b;
 		slt_reg <= (unsigned_in_a < unsigned_in_b);
 		end
-	else
+	end
+	/*else
 		begin
 		alu_result <= 0;
 		slt_reg <= 0;
 		end
-	end
+	end*/
 1'b1:	//-------------------------------SIGNED OPERATIONS
 	begin 
 	case(alu_cntr[2:0])
@@ -41,16 +44,13 @@ case(alu_cntr[3])
 			alu_result <= a - b;
 			slt_reg <= (a < b);
 			end
-		3'b101:	alu_result <= a << b;
-		3'b110:	alu_result <= a >> b;
-		3'b111:	alu_result <= a >>> b;
+		3'b101:	alu_result <= a <<  unsigned_in_b;
+		3'b110:	alu_result <= a >>  unsigned_in_b;
+		3'b111:	alu_result <= a >>> unsigned_in_b;
 		default: alu_result <= 0;
 	endcase
 	end
-default: begin
-	 alu_result <= 0;
-	 slt_reg <= 0;
-	 end
+default: alu_result <= 0;
 endcase
 end
 endmodule
