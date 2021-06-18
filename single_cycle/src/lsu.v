@@ -46,8 +46,9 @@ case (MemtoReg)
 			3'b010: reg_wrdata <= {{24{datamem_rd_in[7]}},datamem_rd_in[7:0]};
 			3'b011:	reg_wrdata <= {{16{1'b0}},datamem_rd_in[15:0]};
 			3'b100:	reg_wrdata <= {{24{1'b0}},datamem_rd_in[7:0]};
+		        default: reg_wrdata <= datamem_rd_in;
 		endcase
-
+        default: reg_wrdata <= alu_out;
 endcase
 end
 
@@ -59,16 +60,17 @@ case(St_cntr)
 	2'b01:	dmem_wr <= 4'b1111;
 	2'b10:	case (b_pos)
 		2'b00:	dmem_wr <= 4'b0011;
-		//2'b01:	dmem_wr <= 4'b0110;
 		2'b10:	dmem_wr <= 4'b1100;
-		//2'b11:	dmem_wr <= 4'b1000;
+		default: dmem_wr <= 4'b0011;
 		endcase
 	2'b11:	case (b_pos)
 		2'b00:	dmem_wr <= 4'b0001;
 		2'b01:	dmem_wr <= 4'b0010;
 		2'b10:	dmem_wr <= 4'b0100;
 		2'b11:	dmem_wr <= 4'b1000;
+		default: dmem_wr <= 4'b0001;
 		endcase
+	default: dmem_wr <= 4'b0000;
 endcase
 end
 
