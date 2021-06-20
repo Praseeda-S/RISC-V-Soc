@@ -1,3 +1,14 @@
+/********************************************************************************************************
+Github repo : 313849252
+Date : 20/04/2021
+Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
+College Name : College of Engineering Trivandrum
+Project Name : Vriddhi : Design and Verification of RISC-V core
+Design name : Instruction Fetch
+Module name : ifetch
+Description : Updates program counter (PC) and fetches 32-bit instruction from ROM (instruction memory)
+********************************************************************************************************/
+
 module ifetch(
 input		clk,
 input 		rstn,
