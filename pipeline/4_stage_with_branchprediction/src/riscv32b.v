@@ -1,4 +1,14 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+/********************************************************************************************************
+Github repo : 313849252
+Date : 20/05/2021
+Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
+College Name : College of Engineering Trivandrum
+Project Name : Vriddhi : Design and Verification of RISC-V core
+Design name : RISC-V Core
+Module name : riscv32b
+Description : Houses the 5 blocks comprising the core 
+********************************************************************************************************/
+
 module riscv32b(
 input clk,
 input rstn,
