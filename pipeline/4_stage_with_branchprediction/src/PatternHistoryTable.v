@@ -1,4 +1,14 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+/********************************************************************************************************
+Github repo : 313849252
+Date : 20/05/2021
+Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
+College Name : College of Engineering Trivandrum
+Project Name : Vriddhi : Design and Verification of RISC-V core
+Design name : Pattern History Table 
+Module name : PatternHistoryTable 
+Description : Consists of 2^n entries per branch, each entry containing a two-bit saturating counter
+********************************************************************************************************/
+
 module PatternHistoryTable #(parameter REGSIZE=2)(
 input wire clk,
 input wire rstn,
