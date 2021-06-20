@@ -1,3 +1,14 @@
+/***********************************************************************************************************
+Github repo : 313849252
+Date : 20/04/2021
+Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
+College Name : College of Engineering, Trivandrum
+Project Name : Vriddhi : Design and Verification of RISC-V core
+Design name : Arithmetic-Logic Unit
+Module name : alu
+Description : Performs arithmetic operations on operands retrieved by execution block from the register set
+***********************************************************************************************************/
+
 module alu #(parameter WIDTH=32)(
 input  			[3:0]		alu_cntr,
 input signed  		[WIDTH-1:0] 	a, b,
