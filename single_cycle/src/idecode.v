@@ -1,3 +1,14 @@
+/********************************************************************************************************
+Github repo : 313849252
+Date : 20/04/2021
+Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
+College Name : College of Engineering Trivandrum
+Project Name : Vriddhi : Design and Verification of RISC-V core
+Design name : Instruction Decode 
+Module name : idecode
+Description : Generates control signals after taking inputs from ROM and instruction fetch unit
+********************************************************************************************************/
+
 module idecode(
 input clk,
 input rstn,
