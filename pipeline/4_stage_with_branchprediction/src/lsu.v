@@ -1,4 +1,14 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+/***************************************************************************************************************************************
+Github repo : 313849252
+Date : 20/05/2021
+Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
+College Name : College of Engineering Trivandrum
+Project Name : Vriddhi : Design and Verification of RISC-V core
+Design name : Load and store unit
+Module name : lsu
+Description : Responsible for inputing data to be stored into RAM, taking outputs from RAM and storing results of ALU operations in ROM 
+***************************************************************************************************************************************/
+
 module lsu(
 input clk,
 input [31:0] alu_out_exe2lsu,
