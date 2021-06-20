@@ -1,4 +1,14 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+/******************************************************************************************************************
+Github repo : 313849252
+Date : 20/05/2021
+Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
+College Name : College of Engineering Trivandrum
+Project Name : Vriddhi : Design and Verification of RISC-V core
+Design name : Register set 
+Module name : registers
+Description : 32 general purpose registers, each 32 bit wide houses all the operands needed for various operations 
+******************************************************************************************************************/
+
 module registers(
 input clk,
 input rstn,
