@@ -1,4 +1,14 @@
-//Owned by Praseeda S, Parvathy PH, Sanjana AR and Anna Sebastine
+/***************************************************************************************************************************
+Github repo : 313849252
+Date : 20/05/2021
+Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
+College Name : College of Engineering Trivandrum
+Project Name : Vriddhi : Design and Verification of RISC-V core
+Design name : Data memory (RAM) 
+Module name : ram
+Description : 4 blocks of register arrays each consisting of 256 registers each of size 8 bits to input data or take output
+***************************************************************************************************************************/
+
 module ram #(parameter AWIDTH=8, DWIDTH = 32)(
 input clk,
 input rstn,
