@@ -1,9 +1,9 @@
 /*************************************************************************************************************
-Github repo : 313849252
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
 Date : 20/05/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering, Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : Forward unit
 Module name : forwarding
 Description : Forwards the result of ALU operation from execute or writeback stage to a dependent instruction
@@ -13,6 +13,7 @@ module forwarding(
 input clk,
 input rstn,
 input wire [31:0] memtoreg_data,
+input wire [31:0] memtoreg_data_d,
 input wire [1:0]  rs1_hazard,
 input wire [1:0]  rs2_hazard,
 input wire [31:0] alu_result,
@@ -31,27 +32,34 @@ reg  [31:0] store_value_reg;
 always @(*)
 begin 
 
+if (~rstn) begin 
+   rs1_fwd2exe <= 0;
+   rs2_fwd2exe <= 0;
+   w_data <= 0;
+end
+
+else begin
 case (rs1_hazard)
    2'b00: rs1_fwd2exe <= rs1;
    2'b01: rs1_fwd2exe <= alu_result;
-   2'b10: rs1_fwd2exe <= memtoreg_data;
+   2'b10: rs1_fwd2exe <= memtoreg_data_d;
    default: rs1_fwd2exe <= 32'h00000000;
 endcase  
 
 case (rs2_hazard)
    2'b00: rs2_fwd2exe <= rs2;
    2'b01: rs2_fwd2exe <= alu_result;
-   2'b10: rs2_fwd2exe <= memtoreg_data;
+   2'b10: rs2_fwd2exe <= memtoreg_data_d;
    default: rs2_fwd2exe <= 32'h00000000;
 
 endcase  
 
 case(store_load_hazard)
-   1'b0: w_data <= store_value_reg;
-   1'b1: w_data <= memtoreg_data;
+   1'b0: w_data <= memtoreg_data;//store_value_reg;
+   1'b1: w_data <= store_value_reg;//memtoreg_data;
    default: w_data <= 32'h00000000;
 endcase
-
+end
 end
 
 always @(posedge clk or negedge rstn)

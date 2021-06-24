@@ -1,14 +1,13 @@
 /********************************************************************************************************
-Github repo : 313849252
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
 Date : 20/05/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : Pattern History Table 
 Module name : PatternHistoryTable 
-Description : Consists of 2^n entries per branch, each entry containing a two-bit saturating counter
+Description : Consists of 2^n entries corresponding 2^n possible patterns in n-bit branch history register, each entry containing a two-bit saturating counter
 ********************************************************************************************************/
-
 module PatternHistoryTable #(parameter REGSIZE=2)(
 input wire clk,
 input wire rstn,

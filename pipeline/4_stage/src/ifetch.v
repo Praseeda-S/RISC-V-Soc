@@ -45,6 +45,10 @@ if (~rstn)
 begin
  pc <= 0;
  instr_reg <= 0;
+ pc_if2id <= 0;
+ cpu_wait <= 0;
+ i <= 0;
+ pc_next1 <= 0;
 end
 
 else

@@ -1,20 +1,21 @@
 /***********************************************************************************************************
-Github repo : 313849252
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
 Date : 20/04/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering, Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : Arithmetic-Logic Unit
 Module name : alu
 Description : Performs arithmetic operations on operands retrieved by execution block from the register set
 ***********************************************************************************************************/
 
 module alu #(parameter WIDTH=32)(
-input  			[3:0]		alu_cntr,
-input signed  		[WIDTH-1:0] 	a, b,
-output  				o_flag,
-output					z_flag,
-output reg 		[WIDTH-1:0] 	alu_result);
+input      [3:0]alu_cntr,
+input signed[WIDTH-1:0] 	a, b,
+input rstn,
+output  		o_flag,
+output		z_flag,
+output reg 	[WIDTH-1:0]alu_result);
 
 wire [WIDTH-1:0] unsigned_in_a = $unsigned(a);
 wire [WIDTH-1:0] unsigned_in_b = $unsigned(b);
@@ -27,23 +28,22 @@ assign o_flag = (alu_cntr[2:0] == 3'b100)? slt_reg : 1'b0;
 
 always@(*)
 begin
-alu_result <= 0;
-slt_reg <= 0;
+if(~rstn)
+begin
+alu_result <= 32'b0;
+slt_reg<=0;
+end
+else
+begin
+alu_result = 32'b0;
+slt_reg=0;
 case(alu_cntr[3])
 1'b0:	//-----------------------------UNSIGNED OPERATIONS [sltiu, sltu, bgeu, bltu]
 	begin
 	if (alu_cntr[2:0] == 3'b100)
-		begin
 		alu_result <= unsigned_in_a - unsigned_in_b;
-		slt_reg <= (unsigned_in_a < unsigned_in_b);
-		end
+		slt_reg <= (unsigned_in_a < unsigned_in_b);	
 	end
-	/*else
-		begin
-		alu_result <= 0;
-		slt_reg <= 0;
-		end
-	end*/
 1'b1:	//-------------------------------SIGNED OPERATIONS
 	begin 
 	case(alu_cntr[2:0])
@@ -55,14 +55,14 @@ case(alu_cntr[3])
 			alu_result <= a - b;
 			slt_reg <= (a < b);
 			end
-		3'b101:	alu_result <= a <<  unsigned_in_b;
-		3'b110:	alu_result <= a >>  unsigned_in_b;
+		3'b101:	alu_result <= a << unsigned_in_b;
+		3'b110:	alu_result <= a >> unsigned_in_b;
 		3'b111:	alu_result <= a >>> unsigned_in_b;
-		default: alu_result <= 0;
+		default : alu_result <=0;
 	endcase
 	end
-default: alu_result <= 0;
 endcase
+end
 end
 endmodule
 

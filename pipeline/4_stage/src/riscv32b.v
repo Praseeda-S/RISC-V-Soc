@@ -101,27 +101,29 @@ ifetch fetchunit(
 
 idecode decodeunit(
 .clk			(clk),
+.rstn			(rstn),
 .ide_wait       	(ide_wait),
 .instr			(instr),
 .pc_if2id       	(pc),
 .wr_addr   		(reg_addr3),
-.RegW			(reg_wr),
-.Memtoreg		(mem_to_reg),
-.St_cntr		(St_cntr),
-.Ld_cntr		(Ld_cntr),
-.ALUa			(ALUa),
-.ALUb			(ALUb),
-.ALU_cntr		(ALU_cntr),
+.reg_write			(reg_wr),
+.memtoreg_id2exe		(mem_to_reg),
+.st_cntr_id2exe		(St_cntr),
+.ld_cntr_id2exe		(Ld_cntr),
+.alu_a			(ALUa),
+.alu_b			(ALUb),
+.alu_cntr		(ALU_cntr),
 .imm			(imm_data),
-.Branch_cntr		(Branch_cntr),
-.Jal			(jal),
-.Jalr			(jalr),
+.branch_cntr		(Branch_cntr),
+.jal			(jal),
+.jalr			(jalr),
 .pc_id2exe     		(pc2),
 .wr_addr_id2exe 	(reg_addr31)
 );
 
 exe	exeunit(
 .clk			(clk),
+.rstn			(rstn),
 .imm			(imm_data),
 .ALUb			(ALUb),
 .ALUa			(ALUa),
@@ -148,7 +150,7 @@ exe	exeunit(
 );
 
 lsu lsuunit(
-.clk			(clk),
+.rstn			(rstn),
 .alu_out_exe2lsu	(alu_out),
 .alu_ov_flag_exe2lsu	(alu_ov_flag),
 .data_addr		(data_addr),
@@ -160,14 +162,15 @@ lsu lsuunit(
 .datamem_wr_in		(rs22),
 .datamem_wr_o		(data_out),
 .datamem_rd_in		(data_in),
-.RegW_exe2lsu   	(reg_wr1),
-.RegW_lsu2reg   	(reg_wr2),
+.reg_write_exe2lsu   	(reg_wr1),
+.reg_write_lsu2reg   	(reg_wr2),
 .wr_addr_exe2lsu 	(reg_addr32),
 .wr_addr_lsu2reg 	(reg_addr33)
 );
 
 datahazard datahardunit(
 .clk			(clk),
+.rstn			(rstn),
 .reg_addr1		(reg_addr1),
 .reg_addr2		(reg_addr2),
 .reg_addr31		(reg_addr31),
@@ -181,15 +184,15 @@ datahazard datahardunit(
 );
 
 forwarding forwardingunit(
-.clk			(clk),
+.rstn			(rstn),
 .memtoreg_data		(memtoreg_data_DH),
 .rs1_hazard		(rs1_hazard),
 .rs2_hazard		(rs2_hazard),
 .result 		(alu_out),
 .rs1			(rs1),
 .rs2			(rs2),
-.rs1_input		(rs1_input),
-.rs2_input		(rs2_input)
+.rs1_fwd2exe		(rs1_input),
+.rs2_fwd2exe		(rs2_input)
 );
 
 endmodule

@@ -1,9 +1,9 @@
 /************************************************************************************************************************************************************
-Github repo : 313849252
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
 Date : 20/05/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering, Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : Branch Prediction Unit
 Module name : BranchPrediction
 Description : Predicts whether a given instruction is a branch instruction and whether it is going to be taken or not by taking inputs from BHR, PHT and BTB
@@ -52,7 +52,6 @@ begin
   begin
     hit_d1 <= 0;
     hit_d2 <= 0;
-
     branch_cntr_d <= 0 ;
   end
   else

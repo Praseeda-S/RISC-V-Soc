@@ -1,9 +1,9 @@
 /********************************************************************************************************************************************
-Github repo : 313849252
-Date : 20/05/2021
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
+Date : 20/04/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : Execution unit
 Module name : exe
 Description : Performs operations and calculations on the operands obtained from register set based on the control signals from decoder unit
@@ -63,6 +63,7 @@ if(~rstn) begin
    reg_write_exe2lsu <= 0;
    wr_addr_exe2lsu <= 0;
    opcode_exe2lsu <= 0;
+   reg_write_exe2lsu <= 0;
 end
 
 else begin
@@ -107,6 +108,8 @@ reg [31:0]b;
 
 always@(*)
 begin
+if (~rstn) b <= 0;
+else begin
 case(alu_b)
    2'b00: b <= reg_source2;
    2'b01: b <= reg_source2 & 32'h0000001F;
@@ -114,6 +117,7 @@ case(alu_b)
    2'b11: b <= 32'h00000004;
    default: b <= reg_source2;
 endcase
+end
 end
 //---------------------------------------------------------------------
 
@@ -123,12 +127,15 @@ reg [31:0]a;
  
 always@(*)
 begin
+if (~rstn) a <= 0;
+else begin
 case(alu_a)
    2'b01: a <= 32'h00000000;
    2'b10: a <= pc_id2exe;
    2'b11: a <= reg_source1;
    default: a <= reg_source1;
 endcase 
+end
 end
 //-----------------------------------------------------------------------
 
@@ -151,8 +158,12 @@ alu_inst(   .alu_cntr(alu_cntr),
 
 // BRANCH CONTROL
 
-always@(posedge clk)
+always@(posedge clk or negedge rstn)
 begin
+
+if (~rstn) pcbranch <= 0;
+
+else begin
    case(branch_cntr)
    3'b001:     pcbranch <= ({overflow,z_flag}==2'b01)? 1'b1:1'b0; //---------beq 
    3'b010:     pcbranch <= (z_flag == 1'b0)? 1'b1:1'b0;     //---------bne
@@ -160,6 +171,7 @@ begin
    3'b100:     pcbranch <= (overflow ==1'b0)? 1'b1:1'b0;    //---------bge,bgeu
    default: pcbranch <= 1'b0; 
    endcase
+end
 end
 
 endmodule

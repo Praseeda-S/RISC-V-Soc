@@ -1,16 +1,17 @@
 /***************************************************************************************************************************************
-Github repo : 313849252
-Date : 20/05/2021
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
+Date : 20/04/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : Load and store unit
 Module name : lsu
-Description : Responsible for inputing data to be stored into RAM, taking outputs from RAM and storing results of ALU operations in ROM 
+Description : Responsible for inputing data to be stored into RAM, taking outputs from RAM and storing results of ALU operations in Register Set
 ***************************************************************************************************************************************/
 
 module lsu(
 input clk,
+input rstn,
 input [31:0] alu_out_exe2lsu,
 input [1:0]  memtoreg,
 input [2:0]  ld_cntr,
@@ -35,13 +36,23 @@ wire [1:0]b_pos = alu_out_exe2lsu[1:0];
 
 always@(*)
 begin
+if (~rstn) begin
+reg_write_lsu2reg <= 0;
+wr_addr_lsu2reg <= 0;
+
+end
+
+else begin
 reg_write_lsu2reg <= reg_write_exe2lsu;
 wr_addr_lsu2reg <= wr_addr_exe2lsu;
+end
 end
    
 always@(*)
 begin
+if (~rstn) reg_wrdata <= 0;
 
+else begin
 case (memtoreg)
    2'b01:   reg_wrdata <= alu_out_exe2lsu;
    2'b10:   reg_wrdata <= {{30{1'b0}}, alu_ov_flag_exe2lsu};
@@ -57,10 +68,13 @@ case (memtoreg)
 
 endcase
 end
+end
 
 always@(*)
 begin
+if (~rstn) dmem_wr <= 0;
 
+else begin
 case(st_cntr)
    2'b00:   dmem_wr <= 4'b0000;
    2'b01:   dmem_wr <= 4'b1111;
@@ -79,12 +93,12 @@ case(st_cntr)
    default: dmem_wr <= 4'b0000;
 endcase
 end
+end
 
 always@(*)
 begin
-
-datamem_wr_o <= datamem_wr_in << (b_pos*8);
-
+if (~rstn) datamem_wr_o <= 0;
+else datamem_wr_o <= datamem_wr_in << (b_pos*8);
 end
        
 endmodule

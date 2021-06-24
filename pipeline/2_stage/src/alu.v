@@ -14,7 +14,7 @@ assign z_flag = (alu_result == 0)? 1:0;
 assign o_flag = (alu_cntr[2:0] == 3'b100)? slt_reg : 0;
 
 
-always@(a or b or alu_cntr)
+always@(*)
 begin
 case(alu_cntr[3])
 1'b0:	//-----------------------------UNSIGNED OPERATIONS [sltiu, sltu, bgeu, bltu]

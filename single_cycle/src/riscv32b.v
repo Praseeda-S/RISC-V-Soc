@@ -1,9 +1,9 @@
 /********************************************************************************************************
-Github repo : 313849252
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
 Date : 20/04/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : RISC-V Core
 Module name : riscv32b
 Description : Houses the 5 blocks comprising the core 
@@ -28,6 +28,7 @@ wire [4:0] reg_addr1 = instr_in[19:15];
 wire [4:0] reg_addr2 = instr_in[24:20];
 wire [4:0] reg_addr3 = instr_in[11:7];
 
+wire [31:0]data_out;
 // data parsing
 assign data_out0 = data_out[7:0];
 assign data_out1 = data_out[15:8];
@@ -58,7 +59,6 @@ wire [1:0] ALUb;
 wire [3:0] ALU_cntr;
 wire [2:0] Branch_cntr;
 
-wire [31:0]data_out;
 
 
 registers regset(
@@ -85,25 +85,28 @@ ifetch fetchunit(
 );
 
 idecode decodeunit(
-.clk		(clk),
+//.clk		(clk),
+.rstn		(rstn),
 .instr		(instr_in),
-.RegW		(reg_wr),
-.Memtoreg	(mem_to_reg),
-.St_cntr	(St_cntr),
-.Ld_cntr	(Ld_cntr),
-.ALUa		(ALUa),
-.ALUb		(ALUb),
-.ALU_cntr	(ALU_cntr),
+.reg_write		(reg_wr),
+.memtoreg	(mem_to_reg),
+.st_cntr	(St_cntr),
+.ld_cntr	(Ld_cntr),
+.alu_a		(ALUa),
+.alu_b		(ALUb),
+.alu_cntr	(ALU_cntr),
 .imm		(imm_data),
-.Branch_cntr	(Branch_cntr),
-.Jal		(jal),
-.Jalr		(jalr)
+.branch_cntr	(Branch_cntr),
+.jal		(jal),
+.jalr		(jalr)
 );
 
 exe	exeunit(
+//.clk		(clk),
+.rstn(rstn),
 .imm		(imm_data),
-.ALUb		(ALUb),
-.ALUa		(ALUa),
+.alu_b		(ALUb),
+.alu_a		(ALUa),
 .alu_cntr	(ALU_cntr),
 .Rd1		(rs1),
 .Rd2		(rs2),
@@ -117,6 +120,7 @@ exe	exeunit(
 
 lsu lsuunit(
 .clk		(clk),
+.rstn(rstn),
 .alu_out	(alu_out),
 .alu_ov_flag	(alu_ov_flag),
 .data_addr	(data_addr),

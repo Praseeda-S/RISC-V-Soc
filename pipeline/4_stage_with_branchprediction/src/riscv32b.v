@@ -1,9 +1,9 @@
 /********************************************************************************************************
-Github repo : 313849252
-Date : 20/05/2021
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
+Date : 20/04/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : RISC-V Core
 Module name : riscv32b
 Description : Houses the 5 blocks comprising the core 
@@ -183,6 +183,7 @@ exe   exeunit(
 
 lsu lsuunit(
 .clk        (clk),
+.rstn	    (rstn),
 .alu_out_exe2lsu     (alu_result),
 .alu_ov_flag_exe2lsu (alu_ov_flag),
 .data_addr           (data_addr),
@@ -222,7 +223,8 @@ datahazard datahardunit(
 forwarding forwardingunit(
 .clk               (clk),
 .rstn              (rstn),
-.memtoreg_data     (memtoreg_data_DH),
+.memtoreg_data     (memtoreg_data),
+.memtoreg_data_d   (memtoreg_data_DH),
 .rs1_hazard        (rs1_hazard),
 .rs2_hazard        (rs2_hazard),
 .alu_result        (alu_result),

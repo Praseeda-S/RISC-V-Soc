@@ -1,9 +1,9 @@
 /********************************************************************************************************
-Github repo : 313849252
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
 Date : 20/05/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : Instruction Fetch
 Module name : ifetch
 Description : Updates program counter (PC) and fetches 32-bit instruction from ROM (instruction memory)
@@ -65,9 +65,15 @@ begin
 if (~rstn)  
 begin
  pc <= 0;
+ pc_if2id <= 0;
+ pc_next1 <= 0;
  instr_reg <= 0;
+ cpu_wait <= 0;
  branch_encountered <= 0;
  branch_predicted <= 0;
+ branch_predicted_d1 <= 0;
+ branch_predicted_d2 <= 0;
+
 end
 
 else

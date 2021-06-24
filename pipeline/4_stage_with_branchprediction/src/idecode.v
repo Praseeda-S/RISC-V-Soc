@@ -1,9 +1,9 @@
 /********************************************************************************************************
-Github repo : 313849252
-Date : 20/05/2021
+Github repo : https://github.com/Praseeda-S/RISC-V-Soc.git
+Date : 20/04/2021
 Authors : Praseeda S, Sanjana AR, Parvathy PH, Anna Sebastine
 College Name : College of Engineering Trivandrum
-Project Name : Vriddhi : Design and Verification of RISC-V core
+Project Name : Design and Verification of Vriddhi: A RISC-V Core
 Design name : Instruction Decode 
 Module name : idecode
 Description : Generates control signals after taking inputs from ROM and instruction fetch unit
@@ -32,7 +32,7 @@ output reg reg_write,
 output reg jal, jalr
 );
 
-reg [2:0]Immc;
+
 
 // Immediate parsing
 wire [31:0]Uimm = {instr[31:12],{12{1'b0}}};
@@ -47,6 +47,7 @@ always@(posedge clk or negedge rstn)
 begin
 
 if(~rstn) begin
+{reg_write,memtoreg_id2exe,st_cntr_id2exe,ld_cntr_id2exe,alu_a,alu_b,alu_cntr,imm,branch_cntr,jal,jalr} <= 52'd0;
 pc_id2exe <= 32'h0;
 wr_addr_id2exe <= 5'h0;
 opcode_id2exe <= 7'h0;
@@ -286,6 +287,8 @@ case(instr[6:0])
          ld_cntr_id2exe <= 3'b000; 
          imm <= Iimm;
          end
+   default: {reg_write,memtoreg_id2exe,st_cntr_id2exe,ld_cntr_id2exe,alu_a,alu_b,alu_cntr,imm,branch_cntr,jal,jalr} <= 52'd0;
+
    
 endcase
 pc_id2exe <= pc_if2id;

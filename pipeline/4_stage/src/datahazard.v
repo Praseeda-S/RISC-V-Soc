@@ -1,5 +1,6 @@
 module datahazard(
 input wire clk,
+input      rstn,
 input wire [4:0] reg_addr1,
 input wire [4:0] reg_addr2,
 input wire [4:0] reg_addr31, 
@@ -18,12 +19,22 @@ assign rs1_haz = ((reg_addr1 != 0) && (reg_addr1 == reg_addr31) && reg_wr1) ? 2'
 
 assign rs2_haz = ((reg_addr2 != 0) && (reg_addr2 == reg_addr31) && reg_wr1) ? 2'b01 : (((reg_addr2 != 0) && (reg_addr2 == reg_addr33) && reg_wr2) == 1  ? 2'b10 : 2'b00) ;
 
-always @(posedge clk)
+always @(posedge clk or negedge rstn)
 begin
+
+if (~rstn) begin
+rs1_hazard <= 0;
+rs2_hazard <= 0;
+memtoreg_data_DH <= 0;
+
+end
+
+else begin
 rs1_hazard <= rs1_haz;
 rs2_hazard <= rs2_haz;
 memtoreg_data_DH <= memtoreg_data;
 
+end
 end
 
 endmodule

@@ -1,5 +1,5 @@
 module lsu(
-input		clk,
+input		rstn,
 input	[31:0] 	alu_out,
 input 		alu_ov_flag,
 output	[31:0]	data_addr,
@@ -35,6 +35,9 @@ assign dmem_wr[3] = (~St_cntr[1] & St_cntr[0]) | (St_cntr[1] & b_pos[1] & ((~St_
 */
 
 always@(*)
+if (~rstn) reg_wrdata <= 0;
+
+else begin
 begin
 
 case (MemtoReg)
@@ -50,8 +53,11 @@ case (MemtoReg)
 
 endcase
 end
+end
 
 always@(*)
+if (~rstn) dmem_wr <= 0;
+else begin 
 begin
 
 case(St_cntr)
@@ -71,8 +77,14 @@ case(St_cntr)
 		endcase
 endcase
 end
+end
 
 always@(*)
+begin
+
+if (~rstn) datamem_wr_o <= 0;
+
+else
 begin
 
 case (b_pos)
@@ -81,6 +93,7 @@ case (b_pos)
 	2'b10:	datamem_wr_o <= {d1,d0,d3,d2};
 	2'b11:	datamem_wr_o <= {d0,d3,d2,d1};
 endcase
+end
 end
 		 
 endmodule

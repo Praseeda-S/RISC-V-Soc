@@ -1,5 +1,6 @@
 module lsu(
 input		clk,
+input 		rstn,
 input	[31:0] 	alu_out_exe2lsu,
 input 		alu_ov_flag_exe2lsu,
 output	[31:0]	data_addr,
@@ -11,8 +12,8 @@ input 	[1:0] 	St_cntr,
 input 	[31:0]	datamem_wr_in,
 output reg [31:0]  datamem_wr_o,
 input 	[31:0] 	datamem_rd_in,
-input           RegW_exe2lsu,
-output reg      RegW_lsu2reg,
+input           reg_write_exe2lsu,
+output reg      reg_write_lsu2reg,
 input [4:0]     wr_addr_exe2lsu,
 output reg [31:0] memtoreg_data_DH,
 output reg [4:0]wr_addr_lsu2reg
@@ -41,13 +42,23 @@ assign dmem_wr[3] = (~St_cntr[1] & St_cntr[0]) | (St_cntr[1] & b_pos[1] & ((~St_
 
 always@(*)
 begin
-RegW_lsu2reg <= RegW_exe2lsu;
+if (~rstn) begin
+reg_write_lsu2reg    <= 0;
+wr_addr_lsu2reg <= 0;
+end
+
+else begin
+reg_write_lsu2reg <= reg_write_exe2lsu;
 wr_addr_lsu2reg <= wr_addr_exe2lsu;
+end
 end
 	
 always@(*)
 begin
 
+if (~rstn) reg_wrdata <= 0;
+
+else begin
 case (MemtoReg)
 	2'b01:	reg_wrdata <= alu_out_exe2lsu;
 	2'b10:	reg_wrdata <= {{30{1'b0}}, alu_ov_flag_exe2lsu};
@@ -61,10 +72,14 @@ case (MemtoReg)
 
 endcase
 end
+end
 
 always@(*)
 begin
 
+if (~rstn) dmem_wr <= 0;
+
+else begin
 case(St_cntr)
 	2'b00:	dmem_wr <= 4'b0000;
 	2'b01:	dmem_wr <= 4'b1111;
@@ -80,11 +95,13 @@ case(St_cntr)
 		endcase
 endcase
 end
+end
 
 always@(*)
 begin
+if (~rstn) datamem_wr_o <= 0;
 
-datamem_wr_o <= datamem_wr_in << (b_pos*8);
+else datamem_wr_o <= datamem_wr_in << (b_pos*8);
 /*case (b_pos)
 	2'b00:	datamem_wr_o <= {d3,d2,d1,d0};
 	2'b01:	datamem_wr_o <= {d2,d1,d0,d3};

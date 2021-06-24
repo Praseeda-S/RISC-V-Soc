@@ -81,24 +81,24 @@ ifetch fetchunit(
 );
 
 idecode decodeunit(
-.clk		(clk),
+.rstn		(rstn),
 .hold		(cpu_wait),
 .instr		(instr),
-.RegW		(reg_wr),
-.Memtoreg	(mem_to_reg),
-.St_cntr	(St_cntr),
-.Ld_cntr	(Ld_cntr),
-.ALUa		(ALUa),
-.ALUb		(ALUb),
-.ALU_cntr	(ALU_cntr),
+.reg_write	(reg_wr),
+.memtoreg	(mem_to_reg),
+.st_cntr	(St_cntr),
+.ld_cntr	(Ld_cntr),
+.alu_a		(ALUa),
+.alu_b		(ALUb),
+.alu_cntr	(ALU_cntr),
 .imm		(imm_data),
-.Branch_cntr	(Branch_cntr),
-.Jal		(jal),
-.Jalr		(jalr)
+.branch_cntr	(Branch_cntr),
+.jal		(jal),
+.jalr		(jalr)
 );
 
 exe	exeunit(
-.clk		(clk),
+.rstn		(rstn),
 .imm		(imm_data),
 .ALUb		(ALUb),
 .ALUa		(ALUa),
@@ -114,7 +114,7 @@ exe	exeunit(
 );
 
 lsu lsuunit(
-.clk		(clk),
+.rstn		(rstn),
 .alu_out	(alu_out),
 .alu_ov_flag	(alu_ov_flag),
 .data_addr	(data_addr),

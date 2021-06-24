@@ -1,5 +1,5 @@
 module exe #(parameter WIDTH=32)(
-input wire clk,
+input wire rstn,
 input wire [31:0]imm,
 input wire [1:0] ALUb,
 input wire [1:0] ALUa,
@@ -19,6 +19,9 @@ reg [31:0]b;
 
 always@(*)
 begin
+if(~rstn) b <= 0;
+else
+begin
 case(ALUb)
 	2'b00: b <= Rd2;
 	2'b01: b <= Rd2 & 32'h0000001F;
@@ -26,6 +29,7 @@ case(ALUb)
 	2'b11: b <= 32'h00000004;
 	default: b <= Rd2;
 endcase
+end
 end
 //---------------------------------------------------------------------
 
@@ -35,12 +39,15 @@ reg [31:0]a;
  
 always@(*)
 begin
+if (~rstn) a <= 0;
+else begin
 case(ALUa)
 	2'b01: a <= 32'h00000000;
 	2'b10: a <= pc;
 	2'b11: a <= Rd1;
 	default: a <= Rd1;
 endcase 
+end
 end
 //-----------------------------------------------------------------------
 
@@ -66,6 +73,8 @@ alu_inst(	.alu_cntr(alu_cntr),
 // BRANCH CONTROL
 
 always@(*)
+if (~rstn) pcbranch <= 0;
+else begin
 begin
 	case(branch_cntr)
 	3'b001:		pcbranch <= ({ov_flag,z_flag}==2'b01)? 1'b1:1'b0;	//---------beq	
@@ -74,6 +83,7 @@ begin
 	3'b100:		pcbranch <= (ov_flag ==1'b0)? 1'b1:1'b0;		//---------bge,bgeu
 	default:	pcbranch <= 1'b0;	
 	endcase
+end
 end
 
 endmodule
