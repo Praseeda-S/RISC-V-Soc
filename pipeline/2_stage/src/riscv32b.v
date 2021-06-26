@@ -14,6 +14,7 @@ output 	[7:0] 	data_out3
 
 // instruction parsing
 wire [31:0] instr;
+wire [31:0]data_out;
 wire [4:0] reg_addr1 = instr[19:15];
 wire [4:0] reg_addr2 = instr[24:20];
 wire [4:0] reg_addr3 = instr[11:7];
@@ -49,8 +50,6 @@ wire [1:0] ALUa;
 wire [1:0] ALUb;
 wire [3:0] ALU_cntr;
 wire [2:0] Branch_cntr;
-
-wire [31:0]data_out;
 
 
 registers regset(

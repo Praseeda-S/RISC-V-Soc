@@ -17,6 +17,7 @@ output reg pcbranch
 
 reg [31:0]b;
 
+
 always@(*)
 begin
 if(~rstn) b <= 0;
@@ -50,10 +51,6 @@ endcase
 end
 end
 //-----------------------------------------------------------------------
-
-
-wire ov_flag;
-wire z_flag;
 
 //ALU
 

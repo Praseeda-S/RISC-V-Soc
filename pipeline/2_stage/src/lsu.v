@@ -39,7 +39,7 @@ if (~rstn) reg_wrdata <= 0;
 
 else begin
 begin
-
+reg_wrdata = 0;
 case (MemtoReg)
 	2'b01:	reg_wrdata <= alu_out;
 	2'b10:	reg_wrdata <= {{30{1'b0}}, alu_ov_flag};

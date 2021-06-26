@@ -31,7 +31,7 @@ if(~rstn) {reg_write,memtoreg,st_cntr,ld_cntr,alu_a,alu_b,alu_cntr,imm,branch_cn
 else if (hold === 1) {branch_cntr,jal,jalr} <= 5'b00000;
 
 else begin
-
+{reg_write,memtoreg,st_cntr,ld_cntr,alu_a,alu_b,alu_cntr,imm,branch_cntr,jal,jalr} = 52'd0;
 case(instr[6:0])
 
 	7'b0000011:	//-----------load---------------
