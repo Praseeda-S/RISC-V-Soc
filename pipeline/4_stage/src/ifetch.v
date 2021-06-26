@@ -8,7 +8,6 @@ input 			jal,jalr,pcbranch,
 input     [31:0]  	instr_in,
 output reg[31:0]  	instr_reg,
 output   	  	ide_wait,
-output 			cpu_wait,
 output reg[31:0]  	pc_if2id,
 input     [2:0]         Branch_cntr 
 );
@@ -16,9 +15,8 @@ input     [2:0]         Branch_cntr
 //variable signals used for stalling
 reg i;
 reg cpu_wait;
-wire pc_error = jal|jalr|pcbranch|branchcnt|i; 
 wire branchcnt = Branch_cntr[0]| Branch_cntr[1]|Branch_cntr[2];
-
+wire pc_error = jal|jalr|pcbranch|branchcnt|i; 
 
 wire [31:0] t1;
 wire [31:0] t2;

@@ -1,4 +1,4 @@
-module ram #(parameter AWIDTH=8, DWIDTH = 32, ram_size = 2**AWIDTH)(
+module ram #(parameter AWIDTH=8, DWIDTH = 32)(
 input clk,
 input rstn,
 input [3:0]mem_wr,
@@ -11,7 +11,7 @@ input [(DWIDTH/4)-1:0]data_wr2,
 input [(DWIDTH/4)-1:0]data_wr3
 );
 
-
+integer ram_size = 2**AWIDTH;
 
 // 4 blocks of register arrays
 reg [(DWIDTH/4)-1:0] ram_reg0 [0:2**AWIDTH-1];

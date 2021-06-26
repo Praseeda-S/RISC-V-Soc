@@ -49,11 +49,11 @@ case(instr[6:0])
 			{reg_write,memtoreg_id2exe,alu_a,alu_b,branch_cntr,jal,jalr,alu_cntr} <= 16'b1111110000001000;
 			st_cntr_id2exe <= 2'b00;
 			case(instr[14:12])
-				3'b010:	ld_cntr_id2exe <= 000;
-				3'b001: ld_cntr_id2exe <= 001;
-				3'b000: ld_cntr_id2exe <= 010;
-				3'b101:	ld_cntr_id2exe <= 011;
-				3'b100:	ld_cntr_id2exe <= 100;
+				3'b010:	ld_cntr_id2exe <= 3'b000;
+				3'b001: ld_cntr_id2exe <= 3'b001;
+				3'b000: ld_cntr_id2exe <= 3'b010;
+				3'b101:	ld_cntr_id2exe <= 3'b011;
+				3'b100:	ld_cntr_id2exe <= 3'b100;
 				
 			endcase
 			imm <= Iimm;
